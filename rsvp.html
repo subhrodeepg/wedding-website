@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RSVP — Subhrodeep &amp; Cindy</title>
+<meta name="description" content="RSVP for Subhrodeep and Cindy's wedding on July 3, 2027 in Canmore, Alberta.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Jost:wght@300;400;500;600&family=Bonheur+Royale&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     DESIGN TOKENS — identical to the main wedding website
+     ============================================================ */
+  :root{
+    --cream:        #F6F1E6;
+    --cream-soft:   #EFE8D8;
+    --paper:        #FBF8EF;
+    --sage:         #7B7F5F;
+    --sage-deep:    #565A42;
+    --pine:         #333827;
+    --ink:          #2B2E22;
+    --gold:         #C39A46;
+    --lacquer:      #A23A2C;
+    --lacquer-deep: #7C2A20;
+    --line:         rgba(43,46,34,0.14);
+
+    --font-display: "Cormorant Garamond", serif;
+    --font-body:    "Jost", sans-serif;
+    --font-script:  "Bonheur Royale", cursive;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  [hidden]{ display:none !important; }
+
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-weight:300;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background:
+      radial-gradient(circle at 15% 12%, rgba(255,255,255,0.10), transparent 45%),
+      radial-gradient(circle at 85% 88%, rgba(195,154,70,0.16), transparent 42%),
+      linear-gradient(180deg, #8C8F6C 0%, var(--sage) 45%, var(--sage-deep) 100%);
+  }
+  img{ max-width:100%; display:block; }
+  a{ color:inherit; }
+
+  :focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
+  }
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 32px;
+  }
+  .mark{
+    font-family:var(--font-display);
+    font-style:italic;
+    font-size:1.35rem;
+    color:#fbf6e8;
+    text-decoration:none;
+  }
+  .back{
+    color:#F1E6C6;
+    text-decoration:none;
+    font-size:0.78rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    border-bottom:1px solid rgba(241,230,198,0.5);
+    padding-bottom:3px;
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .back:hover{ color:#fff; border-color:#fff; }
+
+  /* ---------- stage: title + invitation card ---------- */
+  .stage{
+    flex:1;
+    overflow:hidden;            /* keeps the florals from causing sideways scroll */
+    padding:24px 16px 96px;
+  }
+  .stage-inner{
+    max-width:560px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .eyebrow{
+    display:block;
+    color:#F1E6C6;
+    font-size:0.78rem;
+    font-weight:500;
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+  }
+  h1{
+    margin:10px 0 6px;
+    font-family:var(--font-script);
+    font-weight:400;
+    font-size:clamp(3.2rem, 11vw, 5.6rem);
+    line-height:1;
+    color:#fbf6e8;
+  }
+  .date-line{
+    margin:0 0 76px;
+    font-family:var(--font-display);
+    font-style:italic;
+    font-size:1.2rem;
+    color:#f3efe0;
+  }
+
+  .paper{
+    position:relative;
+    text-align:left;
+    background:var(--paper);
+    border-radius:4px;
+    padding:64px 44px 48px;
+    box-shadow:0 30px 60px rgba(20,22,14,0.35);
+  }
+  /* thin inset rule, like a printed invitation */
+  .paper::before{
+    content:"";
+    position:absolute;
+    inset:12px;
+    border:1px solid rgba(123,127,95,0.4);
+    pointer-events:none;
+  }
+
+  /* floral + wax seal accents sit in front of the card, outside its content */
+  .floral{ position:absolute; height:auto; pointer-events:none; z-index:3; }
+  .floral--calla{   width:118px; left:-62px;  top:-104px;   transform:rotate(-8deg); }
+  .floral--orchid{  width:112px; right:-66px; bottom:-72px; transform:rotate(10deg); }
+  .floral--bouquet{ width:96px;  left:-58px;  bottom:-60px; transform:rotate(-6deg); }
+  .floral--seal{
+    width:84px; right:22px; top:-34px;
+    transform:rotate(10deg);
+    z-index:4;
+    filter:drop-shadow(0 6px 14px rgba(43,46,34,0.25));
+  }
+
+  /* ---------- steps ---------- */
+  .step h2{
+    margin:0 0 10px;
+    font-family:var(--font-display);
+    font-style:italic;
+    font-weight:500;
+    font-size:clamp(1.9rem, 5vw, 2.4rem);
+    line-height:1.15;
+    color:var(--pine);
+    outline:none;
+  }
+  .lede{ margin:0 0 26px; color:var(--sage-deep); }
+
+  .field{ margin-bottom:20px; }
+  .field-label{
+    display:block;
+    margin-bottom:8px;
+    font-size:0.72rem;
+    font-weight:500;
+    letter-spacing:0.24em;
+    text-transform:uppercase;
+    color:var(--sage-deep);
+  }
+  input[type="email"],
+  input[type="text"],
+  textarea{
+    width:100%;
+    padding:14px 16px;
+    font:inherit;
+    font-size:1rem;             /* 16px+ stops iOS from zooming on focus */
+    font-weight:400;
+    color:var(--ink);
+    background:#fff;
+    border:1px solid rgba(43,46,34,0.25);
+    border-radius:4px;
+  }
+  textarea{ resize:vertical; }
+  input[type="email"]:focus,
+  input[type="text"]:focus,
+  textarea:focus{
+    outline:none;
+    border-color:var(--sage-deep);
+    box-shadow:0 0 0 3px rgba(123,127,95,0.25);
+  }
+  .hint{ margin:6px 0 0; font-size:0.85rem; color:var(--sage-deep); }
+
+  .msg{
+    min-height:1.4em;
+    margin:12px 0 14px;
+    font-size:0.92rem;
+    color:var(--lacquer-deep);
+  }
+
+  .btn{
+    display:block;
+    width:100%;
+    padding:16px 28px;
+    font:inherit;
+    font-size:0.85rem;
+    font-weight:500;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    text-align:center;
+    text-decoration:none;
+    color:#fff;
+    background:var(--lacquer);
+    border:0;
+    border-radius:999px;
+    cursor:pointer;
+    transition:background .2s ease;
+  }
+  .btn:hover{ background:var(--lacquer-deep); }
+  .btn:disabled{ opacity:0.6; cursor:progress; }
+  .btn-link{
+    padding:0;
+    font:inherit;
+    font-size:0.85rem;
+    color:var(--sage-deep);
+    background:none;
+    border:0;
+    text-decoration:underline;
+    cursor:pointer;
+  }
+  .btn-link:hover{ color:var(--lacquer-deep); }
+  .switch{ margin:18px 0 0; text-align:center; }
+
+  /* inline notices (preview mode, "already responded") */
+  .note{
+    margin:0 0 22px;
+    padding:10px 14px;
+    font-size:0.85rem;
+    color:var(--sage-deep);
+    background:var(--cream-soft);
+    border-left:2px solid var(--gold);
+  }
+
+  /* ---------- per-guest answer pills ---------- */
+  .guest{ margin:0 0 22px; padding:0; border:0; }
+  .guest legend{
+    margin-bottom:10px;
+    padding:0;
+    font-family:var(--font-display);
+    font-size:1.35rem;
+    color:var(--pine);
+  }
+  .choices{
+    position:relative;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .choices input{ position:absolute; opacity:0; pointer-events:none; }
+  .choices label{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:52px;
+    padding:10px 12px;
+    font-size:0.9rem;
+    font-weight:400;
+    text-align:center;
+    background:#fff;
+    border:1px solid rgba(43,46,34,0.25);
+    border-radius:4px;
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .choices label:hover{ border-color:var(--sage-deep); }
+  .choices input:checked + label{
+    color:#fbf8ef;
+    background:var(--sage-deep);
+    border-color:var(--sage-deep);
+  }
+  .choices input:focus-visible + label{ outline:2px solid var(--gold); outline-offset:2px; }
+
+  /* ---------- extras (only shown for guests who are attending) ---------- */
+  .extras{
+    margin:6px 0 4px;
+    padding-top:22px;
+    border-top:1px solid var(--line);
+  }
+  .check{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    margin:0 0 14px;
+    cursor:pointer;
+  }
+  .check input{
+    flex-shrink:0;
+    width:18px; height:18px;
+    margin-top:4px;
+    accent-color:var(--sage-deep);
+  }
+
+  /* ---------- confirmation ---------- */
+  .summary{
+    margin:0 0 26px;
+    padding:0;
+    list-style:none;
+    border-top:1px solid var(--line);
+  }
+  .summary li{
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    padding:12px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .status-yes{ color:var(--sage-deep); font-weight:500; }
+  .status-no{  color:var(--lacquer-deep); }
+  .actions{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:16px;
+  }
+
+  /* ---------- footer ---------- */
+  .foot{
+    padding:0 16px 34px;
+    text-align:center;
+    font-size:0.85rem;
+    color:#e6e4d0;
+  }
+  .foot a{ text-decoration:none; border-bottom:1px solid rgba(241,230,198,0.5); }
+  .foot a:hover{ color:#fff; }
+
+  /* ---------- small screens ---------- */
+  @media (max-width:760px){
+    .floral--calla, .floral--orchid, .floral--bouquet{ display:none; }
+    .floral--seal{ width:68px; right:16px; top:-28px; }
+    .date-line{ margin-bottom:56px; }
+  }
+  @media (max-width:560px){
+    .topbar{ padding:18px 20px; }
+    .paper{ padding:56px 22px 36px; }
+    .paper::before{ inset:9px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="mark" href="wedding-website.html">S &amp; C</a>
+  <a class="back" href="wedding-website.html">Back to the website</a>
+</header>
+
+<main class="stage">
+  <div class="stage-inner">
+    <span class="eyebrow">Kindly reply by February 15, 2027</span>
+    <h1>Subhrodeep &amp; Cindy</h1>
+    <p class="date-line">July 3, 2027 &middot; Canmore, Alberta</p>
+
+    <div class="paper">
+      <img class="floral floral--calla"   src="assets/calla-lily-pair.png" alt="" aria-hidden="true">
+      <img class="floral floral--bouquet" src="assets/bouquet-spray.png"   alt="" aria-hidden="true">
+      <img class="floral floral--orchid"  src="assets/orchid-spray.png"    alt="" aria-hidden="true">
+      <img class="floral floral--seal"    src="assets/wax-seal.png"        alt="" aria-hidden="true">
+
+      <p class="note" id="demoNote" hidden>
+        Preview mode &mdash; the Google Sheet isn&rsquo;t connected yet. Try <strong>demo@example.com</strong>.
+      </p>
+
+      <noscript><p class="msg">This page needs JavaScript turned on to look up your invitation.</p></noscript>
+
+      <!-- Step 1: log in with email -->
+      <section class="step" id="stepLogin" aria-labelledby="loginTitle">
+        <h2 id="loginTitle" tabindex="-1">Will you join us?</h2>
+        <p class="lede">Enter the email address your invitation was sent to and we&rsquo;ll find your RSVP.</p>
+
+        <form id="loginForm" novalidate>
+          <div class="field">
+            <label class="field-label" for="email">Email address</label>
+            <input id="email" type="email" inputmode="email" autocomplete="email"
+                   autocapitalize="off" spellcheck="false" placeholder="you@example.com">
+          </div>
+          <p class="msg" id="loginMsg" role="alert"></p>
+          <button class="btn" id="loginBtn" type="submit">Find my invitation</button>
+        </form>
+      </section>
+
+      <!-- Step 2: RSVP form for the guests on this invitation -->
+      <section class="step" id="stepForm" hidden aria-labelledby="formTitle">
+        <h2 id="formTitle" tabindex="-1">Welcome</h2>
+        <p class="lede">Let us know who will be celebrating with us.</p>
+        <p class="note" id="respondedNote" hidden></p>
+
+        <form id="rsvpForm" novalidate>
+          <div id="guestList"></div>
+
+          <div class="extras" id="extras" hidden>
+            <div class="field">
+              <label class="field-label" for="dietary">Dietary restrictions</label>
+              <input id="dietary" type="text" maxlength="200" placeholder="Allergies, vegetarian, etc. (optional)">
+            </div>
+
+            <label class="check">
+              <input type="checkbox" id="driving">
+              <span>I&rsquo;ll be driving and parking at the venue</span>
+            </label>
+            <div class="field" id="plateField" hidden>
+              <label class="field-label" for="plate">License plate</label>
+              <input id="plate" type="text" maxlength="15" autocapitalize="characters" autocomplete="off">
+              <p class="hint">The venue is in a provincial park and needs a parking pass for every vehicle.</p>
+            </div>
+
+            <label class="check">
+              <input type="checkbox" id="taxi">
+              <span>I&rsquo;ll need a taxi back to my accommodations in Canmore</span>
+            </label>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="message">A note for the couple (optional)</label>
+            <textarea id="message" rows="3" maxlength="500"></textarea>
+          </div>
+
+          <p class="msg" id="formMsg" role="alert"></p>
+          <button class="btn" id="submitBtn" type="submit">Send RSVP</button>
+          <p class="switch"><button class="btn-link" id="switchBtn" type="button">Not you? Use a different email</button></p>
+        </form>
+      </section>
+
+      <!-- Step 3: confirmation -->
+      <section class="step" id="stepDone" hidden aria-labelledby="doneTitle">
+        <h2 id="doneTitle" tabindex="-1"></h2>
+        <p class="lede" id="doneLede"></p>
+        <ul class="summary" id="summary"></ul>
+        <div class="actions">
+          <button class="btn" id="editBtn" type="button">Change my response</button>
+          <a class="btn-link" href="wedding-website.html">Back to the website</a>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer class="foot">
+  Questions? <a href="mailto:cindyzhangm@hotmail.com">cindyzhangm@hotmail.com</a>
+  &nbsp;&middot;&nbsp; <a href="tel:+17786770138">(778) 677-0138</a>
+</footer>
+
+<script>
+(() => {
+  'use strict';
+
+  /* ============================================================
+     CONFIG
+     Paste the URL of your deployed Google Apps Script web app below
+     (it ends in /exec). Until then the page runs in preview mode
+     with a built-in demo guest, so you can try the whole flow.
+     ============================================================ */
+  const CONFIG = {
+    appsScriptUrl: '',
+    contactEmail: 'cindyzhangm@hotmail.com',
+    rsvpDeadline: 'February 15, 2027',
+    requestTimeoutMs: 15000,
+  };
+  const DEMO_EMAIL = 'demo@example.com';
+  const isDemo = !CONFIG.appsScriptUrl;
+
+  /* ---------- tiny DOM helpers ---------- */
+  const $ = (id) => document.getElementById(id);
+
+  // el('div', { class: 'x', text: 'hi' }, childA, childB) — builds nodes safely (no innerHTML).
+  function el(tag, props = {}, ...children) {
+    const node = document.createElement(tag);
+    for (const [key, value] of Object.entries(props)) {
+      if (key === 'class') node.className = value;
+      else if (key === 'text') node.textContent = value;
+      else node.setAttribute(key, value);
+    }
+    node.append(...children);
+    return node;
+  }
+
+  const els = {
+    demoNote:   $('demoNote'),
+    respondedNote: $('respondedNote'),
+    loginForm:  $('loginForm'),
+    email:      $('email'),
+    loginMsg:   $('loginMsg'),
+    loginBtn:   $('loginBtn'),
+    formTitle:  $('formTitle'),
+    rsvpForm:   $('rsvpForm'),
+    guestList:  $('guestList'),
+    extras:     $('extras'),
+    dietary:    $('dietary'),
+    driving:    $('driving'),
+    plateField: $('plateField'),
+    plate:      $('plate'),
+    taxi:       $('taxi'),
+    message:    $('message'),
+    formMsg:    $('formMsg'),
+    submitBtn:  $('submitBtn'),
+    switchBtn:  $('switchBtn'),
+    doneTitle:  $('doneTitle'),
+    doneLede:   $('doneLede'),
+    summary:    $('summary'),
+    editBtn:    $('editBtn'),
+  };
+  const steps = { login: $('stepLogin'), form: $('stepForm'), done: $('stepDone') };
+
+  // What we know about the person who is logged in. `responded` says a saved RSVP
+  // exists; `response` holds answers only after they were entered in this visit
+  // (the server never sends saved answers back).
+  let state = { email: '', party: '', guests: [], responded: false, response: null };
+
+  /* ============================================================
+     API — talks to the Google Apps Script web app
+       GET  ?action=lookup&email=…  -> { ok, found, party, guests, responded }
+       POST { email, attending, … } -> { ok }
+     Either call can answer { ok: false, error: 'rate_limited', retryAfterSeconds }.
+     ============================================================ */
+  async function request(url, options = {}) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), CONFIG.requestTimeoutMs);
+    try {
+      const res = await fetch(url, { ...options, signal: controller.signal });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.json();
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  const api = {
+    lookup(email) {
+      if (isDemo) return demoApi.lookup(email);
+      return request(`${CONFIG.appsScriptUrl}?action=lookup&email=${encodeURIComponent(email)}`);
+    },
+    submit(payload) {
+      if (isDemo) return demoApi.submit(payload);
+      // No Content-Type header on purpose: the default (text/plain) is a "simple"
+      // request, which Apps Script accepts without a CORS preflight.
+      return request(CONFIG.appsScriptUrl, { method: 'POST', body: JSON.stringify(payload) });
+    },
+  };
+
+  // Preview-mode stand-in for the Google Sheet (lives only in this tab).
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const demoStore = { response: null, misses: 0 };
+  const DEMO_MISS_LIMIT = 5; // the real script's limits are set in google-apps-script.gs
+  const demoApi = {
+    async lookup(email) {
+      await delay(500);
+      if (demoStore.misses >= DEMO_MISS_LIMIT) return { ok: false, error: 'rate_limited', retryAfterSeconds: 600 };
+      if (email !== DEMO_EMAIL) { demoStore.misses++; return { ok: true, found: false }; }
+      return {
+        ok: true, found: true,
+        party: 'Alex & Sam',
+        guests: ['Alex Demo', 'Sam Demo'],
+        responded: Boolean(demoStore.response),
+      };
+    },
+    async submit(payload) {
+      await delay(600);
+      demoStore.response = true;
+      return { ok: true };
+    },
+  };
+
+  /* ============================================================
+     UI
+     ============================================================ */
+  function showStep(name) {
+    for (const [key, node] of Object.entries(steps)) node.hidden = key !== name;
+    steps[name].querySelector('h2').focus({ preventScroll: true });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function setMessage(node, text) { node.textContent = text; }
+
+  function setBusy(button, busy, label) {
+    button.disabled = busy;
+    button.textContent = label;
+    button.setAttribute('aria-busy', String(busy));
+  }
+
+  const isValidEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+  function rateLimitMessage(result) {
+    const minutes = Math.max(1, Math.ceil((result.retryAfterSeconds || 60) / 60));
+    const wait = minutes === 1 ? 'a minute' : `${minutes} minutes`;
+    return `We\u2019re getting a lot of attempts right now. Please wait about ${wait} and try again, or contact us at ${CONFIG.contactEmail}.`;
+  }
+
+  /* ---------- step 2: build the form for this invitation ---------- */
+  function radioPair(guestIndex, value, label) {
+    const id = `guest-${guestIndex}-${value}`;
+    return [
+      el('input', { type: 'radio', id, name: `guest-${guestIndex}`, value }),
+      el('label', { for: id, text: label }),
+    ];
+  }
+
+  function buildGuestFieldset(name, index) {
+    return el('fieldset', { class: 'guest' },
+      el('legend', { text: name }),
+      el('div', { class: 'choices' },
+        ...radioPair(index, 'yes', 'Joyfully accepts'),
+        ...radioPair(index, 'no', 'Regretfully declines'),
+      ),
+    );
+  }
+
+  // Extras (dietary, parking, taxi) only matter if at least one guest is coming.
+  function syncConditionalFields() {
+    const anyYes = state.guests.some((_, i) =>
+      els.rsvpForm.querySelector(`input[name="guest-${i}"]:checked`)?.value === 'yes');
+    els.extras.hidden = !anyYes;
+    els.plateField.hidden = !(anyYes && els.driving.checked);
+  }
+
+  function renderForm() {
+    const previous = state.response || {};
+
+    els.formTitle.textContent = `Welcome, ${state.party}`;
+    els.guestList.replaceChildren(...state.guests.map(buildGuestFieldset));
+
+    state.guests.forEach((name, i) => {
+      const answer = previous.attending && previous.attending[name];
+      if (answer === 'yes' || answer === 'no') $(`guest-${i}-${answer}`).checked = true;
+    });
+
+    els.dietary.value = previous.dietary || '';
+    els.plate.value   = previous.plate || '';
+    els.driving.checked = Boolean(previous.plate);
+    els.taxi.checked    = Boolean(previous.taxi);
+    els.message.value = previous.message || '';
+    setMessage(els.formMsg, '');
+
+    els.respondedNote.hidden = !state.responded;
+    els.respondedNote.textContent = state.response
+      ? 'You\u2019ve already responded. Update your answers below and send to replace them.'
+      : 'We already have an RSVP on file for you. Please fill in your answers again \u2014 sending will replace the earlier ones.';
+
+    syncConditionalFields();
+  }
+
+  /* ---------- step 3: confirmation ---------- */
+  function renderDone() {
+    const { attending } = state.response;
+    const coming = state.guests.filter((name) => attending[name] === 'yes');
+
+    els.doneTitle.textContent = coming.length ? 'Thank you \u2014 see you there!' : 'We\u2019ll miss you';
+    els.doneLede.textContent = coming.length
+      ? `Your RSVP has been received. You can come back with the same email any time before ${CONFIG.rsvpDeadline} to make changes.`
+      : `Thank you for letting us know. If your plans change, you can come back with the same email before ${CONFIG.rsvpDeadline}.`;
+
+    els.summary.replaceChildren(...state.guests.map((name) => {
+      const yes = attending[name] === 'yes';
+      return el('li', {},
+        el('span', { text: name }),
+        el('span', { class: yes ? 'status-yes' : 'status-no', text: yes ? 'Joyfully accepts' : 'Regretfully declines' }),
+      );
+    }));
+  }
+
+  /* ============================================================
+     EVENT HANDLERS
+     ============================================================ */
+  els.loginForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const email = els.email.value.trim().toLowerCase();
+
+    if (!isValidEmail(email)) {
+      setMessage(els.loginMsg, 'Please enter a valid email address.');
+      els.email.focus();
+      return;
+    }
+
+    setMessage(els.loginMsg, '');
+    setBusy(els.loginBtn, true, 'Looking\u2026');
+    try {
+      const result = await api.lookup(email);
+      if (result.error === 'rate_limited') {
+        setMessage(els.loginMsg, rateLimitMessage(result));
+        return;
+      }
+      if (!result.ok) throw new Error(result.error || 'lookup_failed');
+
+      if (!result.found) {
+        setMessage(els.loginMsg,
+          `We couldn\u2019t find that email on our guest list. Please try the address your invitation was sent to, or contact us at ${CONFIG.contactEmail}.`);
+        return;
+      }
+
+      state = { email, party: result.party, guests: result.guests, responded: Boolean(result.responded), response: null };
+      renderForm();
+      showStep('form');
+    } catch (error) {
+      console.error(error);
+      setMessage(els.loginMsg, 'Something went wrong reaching our guest list. Please try again in a moment.');
+    } finally {
+      setBusy(els.loginBtn, false, 'Find my invitation');
+    }
+  });
+
+  els.rsvpForm.addEventListener('change', syncConditionalFields);
+
+  els.rsvpForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    // Every guest on the invitation needs an answer.
+    const attending = {};
+    for (let i = 0; i < state.guests.length; i++) {
+      const chosen = els.rsvpForm.querySelector(`input[name="guest-${i}"]:checked`);
+      if (!chosen) {
+        setMessage(els.formMsg, `Please choose an answer for ${state.guests[i]}.`);
+        $(`guest-${i}-yes`).focus();
+        return;
+      }
+      attending[state.guests[i]] = chosen.value;
+    }
+
+    const anyYes = Object.values(attending).includes('yes');
+    const payload = {
+      email: state.email,
+      attending,
+      dietary: anyYes ? els.dietary.value.trim() : '',
+      plate:   anyYes && els.driving.checked ? els.plate.value.trim() : '',
+      taxi:    anyYes && els.taxi.checked,
+      message: els.message.value.trim(),
+    };
+
+    setMessage(els.formMsg, '');
+    setBusy(els.submitBtn, true, 'Sending\u2026');
+    try {
+      const result = await api.submit(payload);
+      if (result.error === 'rate_limited') {
+        setMessage(els.formMsg, rateLimitMessage(result));
+        return;
+      }
+      if (!result.ok) throw new Error(result.error || 'submit_failed');
+
+      const { email, ...answers } = payload;
+      state.response = answers;
+      state.responded = true;
+      renderDone();
+      showStep('done');
+    } catch (error) {
+      console.error(error);
+      setMessage(els.formMsg, 'We couldn\u2019t save your RSVP just now. Please try again in a moment.');
+    } finally {
+      setBusy(els.submitBtn, false, 'Send RSVP');
+    }
+  });
+
+  els.switchBtn.addEventListener('click', () => {
+    state = { email: '', party: '', guests: [], responded: false, response: null };
+    els.email.value = '';
+    setMessage(els.loginMsg, '');
+    showStep('login');
+  });
+
+  els.editBtn.addEventListener('click', () => {
+    renderForm();
+    showStep('form');
+  });
+
+  /* ---------- start ---------- */
+  els.demoNote.hidden = !isDemo;
+})();
+</script>
+</body>
+</html>

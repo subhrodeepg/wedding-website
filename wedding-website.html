@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Subhrodeep &amp; Cindy — July 3, 2027</title>
+<!--
+  PHOTOS: this page references the original photo filenames from your
+  Canva export (e.g. "3195347d257da24caa619325d84fe5c0.jpg"). To show
+  them, place your downloaded "Wedding Website_files" folder in the
+  same directory as this HTML file — the paths below will resolve
+  automatically. Any photo not found falls back to a soft sage panel
+  instead of a broken-image icon.
+-->
+<meta name="description" content="Join Subhrodeep and Cindy for their wedding celebration in Canmore, Alberta on July 3, 2027.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Jost:wght@300;400;500;600&family=Bonheur+Royale&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     DESIGN TOKENS
+     A mountain-evening palette pulled from the venue itself:
+     sage slope, dusk pine, sunset gold, and a lacquer red for
+     the Chinese-inspired reception + red-pocket gifting tradition.
+     ============================================================ */
+  :root{
+    --cream:      #F6F1E6;
+    --cream-soft: #EFE8D8;
+    --sage:       #7B7F5F;
+    --sage-deep:  #565A42;
+    --pine:       #333827;
+    --ink:        #2B2E22;
+    --gold:       #C39A46;
+    --lacquer:    #A23A2C;
+    --lacquer-deep: #7C2A20;
+    --line:       rgba(43,46,34,0.14);
+
+    --font-display: "Cormorant Garamond", serif;
+    --font-body:    "Jost", sans-serif;
+    --font-script:  "Bonheur Royale", cursive;
+
+    --max: 1120px;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-weight:300;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{ max-width:100%; display:block; }
+  a{ color:inherit; }
+  h1,h2,h3,h4{
+    font-family:var(--font-display);
+    font-weight:500;
+    margin:0;
+    color:var(--pine);
+  }
+  p{ margin:0 0 1em; }
+  ul{ margin:0; padding:0; list-style:none; }
+  .wrap{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:0 32px;
+  }
+  section{ position:relative; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
+  }
+
+  /* ---------- eyebrow / labels ---------- */
+  .eyebrow{
+    font-family:var(--font-body);
+    font-size:0.72rem;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    color:var(--sage-deep);
+    font-weight:500;
+    display:block;
+    margin-bottom:14px;
+  }
+
+  /* ---------- signature element: mountain skyline divider ----------
+     A layered ridge line with a small sun — the throughline motif,
+     referencing the "sunset mountain view" from the ceremony &
+     cocktail hour, used to break every section transition. */
+  .ridge{
+    width:100%;
+    height:64px;
+    display:block;
+  }
+  .ridge--sage path{ fill:var(--sage); }
+  .ridge--cream path{ fill:var(--cream); }
+  .ridge circle{ fill:var(--gold); }
+
+  /* ---------- top navigation ---------- */
+  .nav{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(246,241,230,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height:72px;
+  }
+  .nav-mark{
+    font-family:var(--font-display);
+    font-size:1.35rem;
+    font-style:italic;
+    color:var(--pine);
+    text-decoration:none;
+    white-space:nowrap;
+  }
+  .nav-links{
+    display:flex;
+    gap:34px;
+  }
+  .nav-links a{
+    text-decoration:none;
+    font-size:0.82rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--sage-deep);
+    position:relative;
+    padding:4px 0;
+  }
+  .nav-links a::after{
+    content:"";
+    position:absolute;
+    left:0; right:100%;
+    bottom:0;
+    height:1px;
+    background:var(--lacquer);
+    transition:right .25s ease;
+  }
+  .nav-links a:hover::after{ right:0; }
+  .nav-toggle{
+    display:none;
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:8px;
+  }
+  .nav-toggle span{
+    display:block;
+    width:24px; height:1.5px;
+    background:var(--pine);
+    margin:5px 0;
+    transition:transform .2s ease, opacity .2s ease;
+  }
+
+  @media (max-width:820px){
+    .nav-links{
+      position:absolute;
+      top:72px; left:0; right:0;
+      background:var(--cream);
+      flex-direction:column;
+      gap:0;
+      border-bottom:1px solid var(--line);
+      max-height:0;
+      overflow:hidden;
+      transition:max-height .3s ease;
+    }
+    .nav-links.open{ max-height:420px; }
+    .nav-links a{
+      padding:16px 32px;
+      width:100%;
+      border-top:1px solid var(--line);
+    }
+    .nav-toggle{ display:block; }
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    background:
+      radial-gradient(circle at 82% 18%, rgba(195,154,70,0.35), transparent 42%),
+      linear-gradient(180deg, #8C8F6C 0%, var(--sage) 55%, var(--sage-deep) 100%);
+    color:#fbf8ef;
+    padding:110px 0 0;
+    overflow:hidden;
+    position:relative;
+  }
+  .hero .wrap{
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding-bottom:70px;
+  }
+  .hero .eyebrow{
+    color:#F1E6C6;
+    font-size:0.8rem;
+    letter-spacing:0.34em;
+  }
+  .hero h1{
+    color:#fbf6e8;
+    font-family:var(--font-script);
+    font-weight:400;
+    font-size:clamp(3.4rem, 9vw, 7.2rem);
+    line-height:1;
+  }
+
+  /* ---------- hero stage: nav flanking the centrepiece photo ---------- */
+  .hero-stage{
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:center;
+    gap:44px;
+    width:100%;
+    margin-top:44px;
+  }
+  .hero-nav{ display:flex; flex-direction:column; gap:30px; }
+  .hero-nav.left{ align-items:flex-end; text-align:right; }
+  .hero-nav.right{ align-items:flex-start; text-align:left; }
+  .hero-nav a{
+    text-decoration:none;
+    font-size:0.82rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:#F1E6C6;
+    border-bottom:1px solid rgba(241,230,198,0.55);
+    padding-bottom:3px;
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .hero-nav a:hover{ color:#fff; border-color:#fff; }
+  @media (max-width:900px){
+    .hero-stage{ grid-template-columns:1fr; justify-items:center; }
+    .hero-nav{ display:none; }
+  }
+
+  .hero-photo-main{
+    width:min(560px, 78vw);
+    aspect-ratio:4/3;
+    border:10px solid #fbf8ef;
+    box-shadow:0 30px 60px rgba(20,22,14,0.35);
+  }
+
+  .hero-tagline{
+    font-family:var(--font-display);
+    font-style:italic;
+    font-size:clamp(1.1rem,2.4vw,1.4rem);
+    max-width:560px;
+    margin:44px 0 0;
+    color:#f3efe0;
+  }
+  .hero-tagline em{ color:var(--gold); font-weight:600; }
+  .hero-meta{
+    display:flex;
+    gap:36px;
+    flex-wrap:wrap;
+    justify-content:center;
+    margin-top:38px;
+    font-size:0.85rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+  }
+  .hero-meta div{ text-align:center; }
+  .hero-meta strong{
+    display:block;
+    font-family:var(--font-display);
+    font-size:1.5rem;
+    font-style:italic;
+    font-weight:500;
+    letter-spacing:0;
+    text-transform:none;
+    color:var(--gold);
+    margin-bottom:2px;
+  }
+  .hero-cta{
+    margin-top:40px;
+    display:inline-block;
+    padding:14px 38px;
+    border:1px solid rgba(255,255,255,0.6);
+    border-radius:999px;
+    text-decoration:none;
+    font-size:0.8rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    transition:background .2s ease, color .2s ease;
+  }
+  .hero-cta:hover{ background:#fff; color:var(--sage-deep); }
+
+  /* ---------- save-the-date collage ----------
+     A single cohesive cluster with a deliberate 3-tier stacking order:
+       1. envelope  (z-index 1 — back-most, a paper base peeking through
+                      the gaps between the scattered photos)
+       2. pictures  (z-index 2 — the photos, arranged around the
+                      centre with their inner edges tucked under the card)
+       3. date card (z-index 3 — the centrepiece, sitting on the photos)
+       4. flowers   (z-index 4 — front-most, laid over the card corners
+                      the way loose stems sit in a flat-lay)
+     The wax seal is a small embellishment stamped on the details
+     card's corner, so it stays above everything at z-index 5. */
+  .collage{
+    background:
+      radial-gradient(circle at 18% 26%, rgba(123,127,95,0.08), transparent 46%),
+      radial-gradient(circle at 82% 74%, rgba(195,154,70,0.10), transparent 42%),
+      var(--cream-soft);
+    padding:110px 0 170px;
+    position:relative;
+    overflow:hidden;
+  }
+  .collage-grid{
+    position:relative;
+    max-width:1040px;
+    height:790px;
+    margin:100px auto 0;
+  }
+
+  /* tier 1: envelope (back-most) */
+  .envelope{
+    position:absolute;
+    left:320px; top:60px;
+    width:400px;
+    pointer-events:none;
+    z-index:1;
+    filter:drop-shadow(0 18px 30px rgba(43,46,34,0.18));
+  }
+
+  /* tier 2: pictures — printed photos with a deeper bottom margin, like
+     a stack of prints scattered on a table. Hovering one straightens it
+     and lifts it to the top of the pile. */
+  .collage-grid .collage-card{
+    position:absolute;
+    z-index:2;
+    background:#fff;
+    padding:12px 12px 40px;
+    border-radius:2px;
+    box-shadow:0 20px 40px rgba(43,46,34,0.16), 0 2px 6px rgba(43,46,34,0.08);
+    transition:transform .35s ease, box-shadow .35s ease;
+  }
+  .collage-grid .collage-card img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .collage-card .photo-fallback{ color:var(--sage-deep); }
+  .collage-card.photo-frame:hover{
+    transform:rotate(0deg) scale(1.04);
+    z-index:6;
+    box-shadow:0 30px 60px rgba(43,46,34,0.24), 0 4px 10px rgba(43,46,34,0.10);
+  }
+
+  /* photos ring the date card: two on each side, one tucked beneath it */
+  .collage-card.photo-a{ left:115px; top:20px;  width:280px; height:390px; transform:rotate(-7deg); }
+  .collage-card.photo-d{ left:40px;  top:450px; width:380px; height:280px; transform:rotate(-3deg); }
+  .collage-card.photo-c{ left:655px; top:0;     width:270px; height:380px; transform:rotate(6deg); }
+  .collage-card.photo-e{ left:670px; top:410px; width:260px; height:360px; transform:rotate(4deg); }
+  .collage-card.photo-b{ left:405px; top:450px; width:240px; height:330px; transform:rotate(3deg); }
+  .collage-card.details{
+    left:370px; top:110px; width:300px; height:390px;
+    z-index:3;
+    padding:12px;
+    background:var(--pine); color:#efe9d8;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px;
+    text-align:center; transform:rotate(-2deg);
+    box-shadow:0 20px 40px rgba(43,46,34,0.24);
+  }
+  .collage-card.details strong{ font-family:var(--font-display); font-style:italic; font-size:1.9rem; }
+  .collage-card.details p{ margin:0; font-size:0.98rem; line-height:1.6; color:#d8dac2; }
+  .collage-card.details .divider{ width:36px; height:1px; background:rgba(239,233,216,0.4); }
+
+  /* tier 3: flowers (front-most) */
+  .floral{ position:absolute; pointer-events:none; z-index:4; }
+  .floral--calla{ width:170px; left:290px; top:40px; transform:rotate(-14deg); }
+  .floral--bouquet{ width:150px; left:300px; top:440px; transform:rotate(-6deg); }
+  .floral--orchid{ width:160px; left:600px; top:400px; transform:rotate(8deg); }
+
+  /* embellishment: stamped on top of the details card corner */
+  .floral--seal{ width:84px; left:620px; top:80px; transform:rotate(10deg); z-index:5; filter:drop-shadow(0 6px 14px rgba(43,46,34,0.25)); }
+
+  /* mid-size screens: keep the scattered pile, just scaled down */
+  @media (max-width:1100px) and (min-width:901px){
+    .collage-grid{ zoom:0.78; }
+  }
+
+  /* small screens: a two-column pile of prints */
+  @media (max-width:900px){
+    .collage-grid{
+      height:auto; margin-top:0;
+      display:grid; grid-template-columns:1fr 1fr; gap:22px 16px;
+      max-width:520px;
+    }
+    .collage-grid .collage-card{ position:relative !important; left:auto !important; top:auto !important; width:auto !important; height:auto !important; padding:8px 8px 26px; }
+    .collage-grid .collage-card img{ aspect-ratio:2/3; height:auto; }
+    .collage-card.photo-a{ transform:rotate(-3deg); }
+    .collage-card.photo-c{ transform:rotate(2deg); }
+    .collage-card.photo-b{ transform:rotate(-2deg); }
+    .collage-card.photo-e{ transform:rotate(3deg); }
+    .collage-card.photo-d{ grid-column:1 / -1; transform:rotate(-1deg); }
+    .collage-card.photo-d img{ aspect-ratio:3/2; }
+    .collage-card.details{ grid-column:1 / -1; order:-1; height:auto; padding:32px 26px; transform:none; }
+    .floral, .envelope{ display:none; }
+  }
+
+  /* ---------- intro quote ---------- */
+  .intro{
+    background:var(--sage-deep);
+    color:#fbf8ef;
+    padding:110px 0;
+  }
+  .intro .wrap{
+    display:grid;
+    grid-template-columns:1fr 380px;
+    align-items:center;
+    gap:50px;
+  }
+  .intro blockquote{
+    margin:0;
+    font-family:var(--font-script);
+    font-size:clamp(2.3rem,4.6vw,3.5rem);
+    line-height:1.25;
+    color:#fbf8ef;
+  }
+  .intro cite{
+    display:block;
+    margin-top:26px;
+    font-family:var(--font-body);
+    font-style:normal;
+    font-size:0.85rem;
+    letter-spacing:0.04em;
+    text-transform:none;
+    color:#d8dac2;
+  }
+  .intro-photos{ position:relative; height:340px; }
+  .intro-photos .photo-frame{
+    position:absolute;
+    border:8px solid #fbf8ef;
+    box-shadow:0 20px 40px rgba(20,22,14,0.3);
+  }
+  .intro-photos .photo-frame.one{ width:230px; aspect-ratio:4/5; top:0; left:0; transform:rotate(-4deg); z-index:1; }
+  .intro-photos .photo-frame.two{ width:230px; aspect-ratio:4/5; bottom:0; right:0; transform:rotate(4deg); z-index:2; }
+  .washi{
+    position:absolute; top:-14px; left:60px;
+    width:70px; height:22px;
+    background:rgba(201,162,70,0.55);
+    transform:rotate(-8deg);
+    z-index:3;
+  }
+  @media (max-width:820px){
+    .intro .wrap{ grid-template-columns:1fr; text-align:center; }
+    .intro blockquote{ text-align:center; }
+    .intro-photos{ margin:20px auto 0; width:260px; }
+  }
+
+  /* ---------- section heading pattern ---------- */
+  .section-head{
+    text-align:center;
+    max-width:620px;
+    margin:0 auto 56px;
+  }
+  .section-head h2{
+    font-size:clamp(2.1rem,4.6vw,3rem);
+    font-style:italic;
+  }
+  .section-head p{ margin-top:14px; color:var(--sage-deep); }
+
+  /* ---------- schedule / about the wedding ---------- */
+  .schedule{
+    background:var(--cream-soft);
+    padding:90px 0 100px;
+  }
+  .schedule-rail{
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:40px;
+  }
+  .schedule-rail::before{
+    content:"";
+    position:absolute;
+    top:34px; left:8%; right:8%;
+    height:1px;
+    background:var(--line);
+  }
+  .event-card{
+    position:relative;
+    text-align:center;
+    padding-top:56px;
+  }
+  .event-dot{
+    position:absolute;
+    top:20px; left:50%;
+    transform:translateX(-50%);
+    width:28px; height:28px;
+    border-radius:50%;
+    background:var(--cream-soft);
+    border:1px solid var(--sage);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .event-dot::after{
+    content:"";
+    width:8px;height:8px;
+    border-radius:50%;
+    background:var(--lacquer);
+  }
+  .event-time{
+    font-family:var(--font-display);
+    font-style:italic;
+    color:var(--gold);
+    font-size:1.4rem;
+    display:block;
+    margin-bottom:6px;
+  }
+  .event-card h3{ font-size:1.55rem; margin-bottom:10px; }
+  .event-card p{ color:var(--sage-deep); font-size:0.95rem; max-width:270px; margin-inline:auto; }
+
+  .schedule-note{
+    margin-top:56px;
+    padding:26px 30px;
+    border-left:2px solid var(--lacquer);
+    background:#fff;
+    max-width:760px;
+    margin-inline:auto;
+    font-size:0.92rem;
+    color:var(--sage-deep);
+  }
+
+  @media (max-width:760px){
+    .schedule-rail{ grid-template-columns:1fr; gap:52px; }
+    .schedule-rail::before{ display:none; }
+  }
+
+  /* ---------- travel + dress code + gift : two/three col info ---------- */
+  .info-band{ padding:100px 0; }
+  .info-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:30px;
+  }
+  .info-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:34px 30px;
+  }
+  .info-card h3{
+    font-size:1.4rem;
+    font-style:italic;
+    margin-bottom:12px;
+    color:var(--lacquer-deep);
+  }
+  .info-card p{ font-size:0.93rem; color:var(--ink); margin-bottom:0; }
+  .info-card p + p{ margin-top:10px; }
+
+  @media (max-width:900px){
+    .info-grid{ grid-template-columns:1fr; }
+  }
+
+  /* dress code swatches */
+  .dress-band{
+    background:var(--pine);
+    color:#efe9d8;
+    padding:80px 0;
+  }
+  .dress-band .section-head h2{ color:#fff; }
+  .dress-band .section-head p{ color:#cfd0b9; }
+  .dress-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:28px;
+    max-width:640px;
+    margin:0 auto;
+  }
+  .dress-card{
+    text-align:center;
+    padding:30px 22px;
+    border:1px solid rgba(255,255,255,0.18);
+    border-radius:4px;
+  }
+  .dress-card h4{
+    color:#fff;
+    font-style:italic;
+    font-size:1.25rem;
+    margin-bottom:16px;
+  }
+  .swatches{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:14px;
+  }
+  .swatch{
+    width:26px;height:26px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,0.35);
+  }
+  .dress-card p{ font-size:0.85rem; color:#cfd0b9; margin:0; }
+  @media (max-width:640px){ .dress-grid{ grid-template-columns:1fr; } }
+
+  /* gift note */
+  .gift-note{
+    text-align:center;
+    max-width:600px;
+    margin:70px auto 0;
+    padding-top:50px;
+    border-top:1px solid var(--line);
+  }
+  .gift-note h3{ font-size:1.7rem; font-style:italic; margin-bottom:14px; }
+  .gift-note p{ color:var(--sage-deep); font-size:0.95rem; }
+
+  /* ---------- FAQ ---------- */
+  .faq{ background:var(--cream-soft); padding:96px 0; }
+  .faq-list{
+    max-width:720px;
+    margin:0 auto;
+  }
+  .faq-item{
+    border-bottom:1px solid var(--line);
+  }
+  .faq-item summary{
+    cursor:pointer;
+    list-style:none;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:24px 4px;
+    font-family:var(--font-display);
+    font-size:1.2rem;
+    font-style:italic;
+    color:var(--pine);
+  }
+  .faq-item summary::-webkit-details-marker{ display:none; }
+  .faq-item summary::after{
+    content:"+";
+    font-family:var(--font-body);
+    font-size:1.4rem;
+    color:var(--lacquer);
+    transition:transform .2s ease;
+    flex-shrink:0;
+    margin-left:16px;
+  }
+  .faq-item[open] summary::after{ transform:rotate(45deg); }
+  .faq-item p{
+    padding:0 4px 24px;
+    color:var(--sage-deep);
+    font-size:0.95rem;
+    max-width:600px;
+  }
+
+  .rsvp-cta{
+    margin-top:60px;
+    text-align:center;
+  }
+  .rsvp-cta p{ color:var(--sage-deep); margin-bottom:18px; }
+
+  /* ---------- RSVP ---------- */
+  .rsvp{
+    padding:100px 0;
+    text-align:center;
+  }
+  .rsvp-deadline{
+    font-family:var(--font-display);
+    font-style:italic;
+    font-size:clamp(1.8rem,4vw,2.4rem);
+    color:var(--lacquer-deep);
+    margin-bottom:8px;
+  }
+  .rsvp-sub{ color:var(--sage-deep); margin-bottom:44px; }
+  .rsvp-contact{
+    display:flex;
+    justify-content:center;
+    gap:60px;
+    flex-wrap:wrap;
+    margin-bottom:44px;
+  }
+  .rsvp-contact div{ text-align:left; }
+  .rsvp-contact .eyebrow{ margin-bottom:6px; }
+  .rsvp-contact a{ text-decoration:none; font-size:1.05rem; }
+  .rsvp-button{
+    display:inline-block;
+    padding:16px 46px;
+    background:var(--lacquer);
+    color:#fff;
+    text-decoration:none;
+    border-radius:999px;
+    font-size:0.85rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    transition:background .2s ease;
+  }
+  .rsvp-button:hover{ background:var(--lacquer-deep); }
+
+  /* ---------- explore sections ---------- */
+  .explore{ padding:100px 0; }
+  .explore.alt{ background:var(--cream-soft); }
+  .explore-columns{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:46px;
+  }
+  .explore-col h3{
+    font-size:1.3rem;
+    font-style:italic;
+    color:var(--lacquer-deep);
+    margin-bottom:18px;
+    padding-bottom:12px;
+    border-bottom:1px solid var(--line);
+  }
+  .explore-col li{
+    font-size:0.93rem;
+    padding:10px 0;
+    border-bottom:1px dotted var(--line);
+    color:var(--ink);
+  }
+  .explore-col li:last-child{ border-bottom:none; }
+  .explore-col li span{
+    display:block;
+    color:var(--sage-deep);
+    font-size:0.82rem;
+    margin-top:2px;
+  }
+  @media (max-width:860px){
+    .explore-columns{ grid-template-columns:1fr; gap:40px; }
+  }
+
+  /* ---------- photo frames ----------
+     References the couple's actual photos from the original Canva
+     export (same filenames, under a "Wedding Website_files" folder
+     placed next to this HTML file). If a file isn't found, the frame
+     falls back to a soft sage panel with a caption instead of a
+     broken-image icon. */
+  .photo-frame{
+    position:relative;
+    overflow:hidden;
+    border-radius:4px;
+    background:linear-gradient(135deg, var(--sage) 0%, var(--sage-deep) 100%);
+    box-shadow:0 18px 40px rgba(43,46,34,0.18);
+  }
+  .photo-frame img{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .photo-fallback{
+    display:none;
+    position:absolute; inset:0;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:18px;
+    font-size:0.74rem;
+    line-height:1.5;
+    letter-spacing:0.02em;
+    color:#f3efe0;
+  }
+  .img-missing .photo-fallback{ display:flex; }
+  .img-missing img{ display:none; }
+
+  /* Standalone section photos share one system so they read as a set:
+     everything sits on a 720px column (the width of the FAQ banner),
+     pairs split it into two 350px portraits, a single portrait matches
+     one half of a pair, and every print gets the same white border. */
+  .section-photo,
+  .photo-duo,
+  .photo-row,
+  .photo-banner{ --photo-col:350px; --photo-gap:20px; }
+
+  .section-photo .photo-frame,
+  .photo-duo .photo-frame,
+  .photo-row .photo-frame,
+  .photo-banner{ border:6px solid #fff; }
+
+  .section-photo{ text-align:center; margin:0 auto 64px; }
+  .section-photo .photo-frame{
+    width:min(var(--photo-col), 100%); aspect-ratio:2/3;
+    margin:0 auto;
+  }
+  .section-photo figcaption{
+    margin-top:16px;
+    font-family:var(--font-display);
+    font-style:italic;
+    color:var(--sage-deep);
+    font-size:1rem;
+  }
+
+  .photo-duo,
+  .photo-row{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:var(--photo-gap);
+    max-width:calc(var(--photo-col) * 2 + var(--photo-gap));
+    margin:0 auto 64px;
+  }
+  .photo-row{ margin:64px auto 0; }
+  .photo-duo .photo-frame,
+  .photo-row .photo-frame{ aspect-ratio:2/3; }
+  @media (max-width:560px){
+    .photo-duo, .photo-row{ grid-template-columns:1fr; max-width:var(--photo-col); }
+  }
+
+  .photo-banner{
+    max-width:calc(var(--photo-col) * 2 + var(--photo-gap));
+    margin:0 auto 50px;
+    aspect-ratio:3/2;
+  }
+
+  /* ---------- footer ---------- */
+  footer{
+    background:var(--pine);
+    color:#cfd0b9;
+    padding:60px 0 34px;
+    text-align:center;
+  }
+  footer .nav-mark{ color:#fff; margin-bottom:18px; display:inline-block; }
+  footer .foot-links{
+    display:flex;
+    gap:24px;
+    justify-content:center;
+    flex-wrap:wrap;
+    font-size:0.78rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    margin:18px 0 26px;
+  }
+  footer .foot-links a{ text-decoration:none; color:#cfd0b9; }
+  footer .foot-links a:hover{ color:#fff; }
+  footer small{ font-size:0.75rem; opacity:0.65; display:block; }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="wrap">
+    <a class="nav-mark" href="#home">S &amp; C</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="#about">Wedding Schedule</a>
+      <a href="#travel">Travel Details</a>
+      <a href="#calgary">Explore Calgary</a>
+      <a href="#faq">FAQ</a>
+      <a href="#rsvp">RSVP</a>
+      <a href="#canmore">Explore Canmore</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="home">
+  <div class="wrap">
+    <span class="eyebrow">A special note from</span>
+    <h1>Subhrodeep &amp; Cindy</h1>
+
+    <div class="hero-stage">
+      <nav class="hero-nav left" aria-label="Primary">
+        <a href="#about">Wedding Schedule</a>
+        <a href="#travel">Travel Details</a>
+        <a href="#calgary">Explore Calgary</a>
+      </nav>
+
+      <div class="hero-photo-main photo-frame">
+        <img src="Wedding Website_files/3195347d257da24caa619325d84fe5c0.jpg" alt="Subhrodeep and Cindy" loading="lazy" onerror="this.closest('.photo-frame').classList.add('img-missing')">
+        <span class="photo-fallback">Photo not found</span>
+      </div>
+
+      <nav class="hero-nav right" aria-label="Secondary">
+        <a href="#faq">FAQ</a>
+        <a href="#rsvp">RSVP</a>
+        <a href="#canmore">Explore Canmore</a>
+      </nav>
+    </div>
+
+    <p class="hero-tagline">We&rsquo;re finally getting married <em>&hellip; in Canmore!</em></p>
+
+    <div class="hero-meta">
+      <div><strong>July 3, 2027</strong>Wedding Day</div>
+      <div><strong>Bill Warren Training Centre</strong>1995 Olympic Way, Canmore, AB</div>
+      <div><strong>3:00 PM</strong>&lsquo;Til Late</div>
+    </div>
+
+    <a class="hero-cta" href="#rsvp">Click here to RSVP</a>
+  </div>
+</header>
+
+<!-- ridge divider -->
+<svg class="ridge ridge--cream" viewBox="0 0 1200 64" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0,64 L0,40 L200,10 L400,45 L600,15 L800,50 L1000,20 L1200,42 L1200,64 Z"/>
+</svg>
+
+<!-- ============ SAVE THE DATE COLLAGE ============ -->
+<section class="collage">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Save the date</span>
+      <h2>A Look Ahead</h2>
+    </div>
+
+    <div class="collage-grid">
+      <div class="collage-card photo-a photo-frame">
+        <img src="Wedding Website_files/0e306f13913e19eb0c3717e666fd5e82.jpg" alt="Mountain view near Canmore" loading="lazy" onerror="this.closest('.photo-frame').classList.add('img-missing')">
+        <span class="photo-fallback">Photo not found</span>
+      </div>
+
+      <div class="collage-card photo-c photo-frame">
+        <img src="Wedding Website_files/75ed06b9dddc992cdebfe9f9477fde3f.jpg" alt="Subhrodeep and Cindy" loading="lazy" onerror="this.closest('.photo-frame').classList.add('img-missing')">
+        <span class="photo-fallback">Photo not found</span>
+      </div>
+
+      <div class="collage-card photo-d photo-frame">
+        <img src="Wedding Website_files/IMG_4321.JPG" alt="Subhrodeep and Cindy holding hands, showing the engagement ring" loading="lazy" onerror="this.closest('.photo-frame').classList.add('img-missing')">
+        <span class="photo-fallback">Photo not found</span>
+      </div>
+
+      <div class="collage-card photo-e photo-frame">
+        <img src="Wedding Website_files/IMG_4335.JPG" alt="Subhrodeep and Cindy with their dog" loading="lazy" onerror="this.closest('.photo-frame').classList.add('img-missing')">
+        <span class="photo-fallback">Photo not found</span>
+      </div>
+
+      <div class="collage-card photo-b photo-frame">
+        <img src="Wedding Website_files/271dfbdada6ae3e11a24a8e7320a075b.jpg" alt="Subhrodeep and Cindy" loading="lazy" onerror="this.closest('.photo-frame').classList.add('img-missing')">
+        <span class="photo-fallback">Photo not found</span>
+      </div>
+
+      <div class="collage-card details">
+        <strong>July 3, 2027</strong>
+        <span class="divider"></span>
+        <p>Bill Warren Training Centre<br>1995 Olympic Way<br>Canmore, AB</p>
+        <span class="divider"></span>
+        <p>3:00 PM &lsquo;til late</p>
+      </div>
+
+      <img class="envelope" src="assets/envelope.png" alt="" aria-hidden="true">
+
+      <img class="floral floral--calla" src="assets/calla-lily-pair.png" alt="" aria-hidden="true">
+      <img class="floral floral--seal" src="assets/wax-seal.png" alt="" aria-hidden="true">
+      <img class="floral floral--bouquet" src="assets/bouquet-spray.png" alt="" aria-hidden="true">
+      <img class="floral floral--orchid" src="assets/orchid-spray.png" alt="" aria-hidden="true">
+    </div>
+  </div>
+</section>
+
+<!-- ============ INTRO QUOTE ============ -->
+<section class="intro">
+  <div class="wrap">
+    <div>
+      <blockquote>It&rsquo;s not the start of something new, but the start of something true.</blockquote>
+      <cite>We look forward to you joining us in our wedding celebrations</cite>
+    </div>
+
+    <div class="intro-photos">
+      <span class="washi"></span>
+      <div class="photo-frame one">
+        <img src="Wedding Website_files/IMG_4313.JPG" alt="Subhrodeep and Cindy with their dog" loading="lazy" onerror="this.closest('.photo-frame').classList.add('img-missing')">
+        <span class="photo-fallback">Photo not found</span>
+      </div>
+      <div class="photo-frame two">
+        <img src="Wedding Website_files/26dfd427ed7baede2b1ca1ba85b409d8.jpg" alt="Subhrodeep and Cindy" loading="lazy" onerror="this.closest('.photo-frame').classList.add('img-missing')">
+        <span class="photo-fallback">Photo not found</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT / SCHEDULE ============ -->
+<section class="schedule" id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">About the Wedding</span>
+      <h2>Wedding Schedule</h2>
+    </div>
+
+    <figure class="section-photo">
+      <div class="photo-frame">
+        <img src="Wedding Website_files/IMG_4312.JPG" alt="Subhrodeep and Cindy" loading="lazy" onerror="this.closest('.photo-frame').classList.add('img-missing')">
+        <span class="photo-fallback">Photo not found</span>
+      </div>
+      <figcaption>A moment from our engagement shoot</figcaption>
+    </figure>
+
+    <div class="schedule-rail">
+      <div class="event-card">
+        <div class="event-dot"></div>
+        <span class="event-time">3:00 PM</span>
+        <h3>The Ceremony</h3>
+        <p>The wedding ceremony will take place on a charming patio overlooking the Rocky Mountains.</p>
+      </div>
+      <div class="event-card">
+        <div class="event-dot"></div>
+        <span class="event-time">5:00 PM</span>
+        <h3>Cocktail Hour</h3>
+        <p>We&rsquo;ll gather on the patio for drinks, canapés, and live music &mdash; with a scenic sunset mountain view.</p>
+      </div>
+      <div class="event-card">
+        <div class="event-dot"></div>
+        <span class="event-time">6:00 PM</span>
+        <h3>The Reception</h3>
+        <p>Following cocktail hour, we&rsquo;ll gather for dinner, dessert, and dancing in a Chinese-inspired celebration.</p>
+      </div>
+    </div>
+
+    <div class="schedule-note">
+      Following the ceremony, the venue requires a two-hour break to set up the reception, and all guests are asked to leave the venue during this window. It&rsquo;s a great time to sightsee around Canmore or check in to your accommodations &mdash; see &ldquo;Explore Canmore&rdquo; below for ideas.
+    </div>
+  </div>
+</section>
+
+<svg class="ridge ridge--cream" viewBox="0 0 1200 64" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0,0 L0,24 L200,54 L400,19 L600,49 L800,14 L1000,44 L1200,22 L1200,0 Z"/>
+</svg>
+
+<!-- ============ TRAVEL DETAILS ============ -->
+<section class="info-band" id="travel">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Getting there</span>
+      <h2>Travel Details</h2>
+    </div>
+
+    <div class="photo-duo">
+      <div class="photo-frame">
+        <img src="Wedding Website_files/75ed06b9dddc992cdebfe9f9477fde3f.jpg" alt="The Canmore mountains" loading="lazy" onerror="this.closest('.photo-frame').classList.add('img-missing')">
+        <span class="photo-fallback">Photo not found</span>
+      </div>
+      <div class="photo-frame">
+        <img src="Wedding Website_files/271dfbdada6ae3e11a24a8e7320a075b.jpg" alt="A Canmore trail" loading="lazy" onerror="this.closest('.photo-frame').classList.add('img-missing')">
+        <span class="photo-fallback">Photo not found</span>
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>Getting to Canmore</h3>
+        <p>Canmore is approximately a 1.5-hour drive from Calgary. Please plan your travel time accordingly to arrive at the wedding on time.</p>
+      </div>
+      <div class="info-card">
+        <h3>Accommodations</h3>
+        <p>Local Airbnbs and hotels are available in the Canmore area if guests would like to stay the night.</p>
+      </div>
+      <div class="info-card">
+        <h3>Parking &amp; Taxis</h3>
+        <p>The venue is in a provincial park and requires a parking pass &mdash; the bride and groom will cover the day pass for all guests. If you&rsquo;re driving, let us know so we can arrange your license plate details in advance.</p>
+        <p>Staying in Canmore and need a taxi back to your accommodations? Let us know that too.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DRESS CODE ============ -->
+<section class="dress-band">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">What to wear</span>
+      <h2>Dress Code</h2>
+      <p>Formal attire is required; Western or Chinese style is both welcome. Feel free to take the colour palette below as guidance, if you&rsquo;d like.</p>
+    </div>
+
+    <div class="dress-grid">
+      <div class="dress-card">
+        <h4>Ceremony</h4>
+        <div class="swatches">
+          <span class="swatch" style="background:#7B7F5F"></span>
+          <span class="swatch" style="background:#EFE8D8"></span>
+          <span class="swatch" style="background:#C39A46"></span>
+        </div>
+        <p>Sage, cream &amp; gold &mdash; mountain-patio tones</p>
+      </div>
+      <div class="dress-card">
+        <h4>Reception</h4>
+        <div class="swatches">
+          <span class="swatch" style="background:#A23A2C"></span>
+          <span class="swatch" style="background:#C39A46"></span>
+          <span class="swatch" style="background:#333827"></span>
+        </div>
+        <p>Lacquer red, gold &amp; deep pine &mdash; evening celebration tones</p>
+      </div>
+    </div>
+
+    <div class="gift-note">
+      <h3>Your presence is the greatest gift of all.</h3>
+      <p>However, if you&rsquo;d like to contribute to our new chapter together, we welcome gifts through a gift box at our reception. Red pockets will be provided at the gift box table if you&rsquo;d prefer to gift cash.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Questions</span>
+      <h2>Frequently Asked Questions</h2>
+    </div>
+
+    <div class="photo-frame photo-banner">
+      <img src="Wedding Website_files/03d6c4b1ba00371fdaae115cf4890ee1.jpg" alt="Subhrodeep and Cindy" loading="lazy" onerror="this.closest('.photo-frame').classList.add('img-missing')">
+      <span class="photo-fallback">Photo not found</span>
+    </div>
+
+    <div class="faq-list">
+      <details class="faq-item" open>
+        <summary>Can I bring a plus one?</summary>
+        <p>This is an intimate wedding with limited seating. Kindly note that only the named guests on your invitation are included.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What is the dress code?</summary>
+        <p>Formal attire is required; Western or Chinese style is acceptable. Guests can follow the colour scheme of each event above as guidance, if they&rsquo;d like.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What if it rains?</summary>
+        <p>If there&rsquo;s heavy precipitation on the day, the ceremony and cocktail hour will move to the indoor area of the venue.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What about parking and taxis?</summary>
+        <p>The venue requires a parking pass, which we&rsquo;ll cover for all guests &mdash; just let us know if you&rsquo;re driving so we can arrange it, and let us know if you&rsquo;ll need a taxi back to your accommodations in Canmore.</p>
+      </details>
+    </div>
+
+    <div class="rsvp-cta">
+      <p>Have another question or concern?</p>
+      <a class="hero-cta" style="border-color:var(--lacquer); color:var(--lacquer-deep);" href="#rsvp">Contact us</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RSVP ============ -->
+<section class="rsvp" id="rsvp">
+  <div class="wrap">
+    <span class="eyebrow">Please respond</span>
+    <div class="rsvp-deadline">RSVP by February 15, 2027</div>
+    <p class="rsvp-sub">We can&rsquo;t wait to celebrate with you.</p>
+
+    <div class="rsvp-contact">
+      <div>
+        <span class="eyebrow">Email</span>
+        <a href="mailto:cindyzhangm@hotmail.com">cindyzhangm@hotmail.com</a>
+      </div>
+      <div>
+        <span class="eyebrow">Mobile</span>
+        <a href="tel:+17786770138">(778) 677-0138</a>
+      </div>
+    </div>
+
+    <a class="rsvp-button" href="rsvp.html">Click here to RSVP</a>
+
+    <div class="photo-row">
+      <div class="photo-frame">
+        <img src="Wedding Website_files/383bd4fa30b58506ed7989f03d25847c.jpg" alt="Subhrodeep and Cindy" loading="lazy" onerror="this.closest('.photo-frame').classList.add('img-missing')">
+        <span class="photo-fallback">Photo not found</span>
+      </div>
+      <div class="photo-frame">
+        <img src="Wedding Website_files/26dfd427ed7baede2b1ca1ba85b409d8.jpg" alt="Subhrodeep and Cindy" loading="lazy" onerror="this.closest('.photo-frame').classList.add('img-missing')">
+        <span class="photo-fallback">Photo not found</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<svg class="ridge ridge--cream" viewBox="0 0 1200 64" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0,64 L0,40 L200,10 L400,45 L600,15 L800,50 L1000,20 L1200,42 L1200,64 Z"/>
+</svg>
+
+<!-- ============ EXPLORE CALGARY ============ -->
+<section class="explore" id="calgary">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">While you&rsquo;re in town</span>
+      <h2>Our Favourite Parts of Calgary</h2>
+    </div>
+
+    <div class="explore-columns">
+      <div class="explore-col">
+        <h3>Activities</h3>
+        <ul>
+          <li>Go-karting at WinSport</li>
+          <li>Calgary Zoo</li>
+          <li>Heritage Park</li>
+          <li>Shops &amp; consignment stores in Beltline, Mission, Inglewood or Kensington</li>
+          <li>Calgary Stampede <span>Running July 9&ndash;18, 2027</span></li>
+        </ul>
+      </div>
+      <div class="explore-col">
+        <h3>Eats</h3>
+        <ul>
+          <li>Korilla <span>Korean BBQ</span></li>
+          <li>An Sang <span>Vietnamese cuisine</span></li>
+          <li>Milk YYC <span>Asian-inspired ice cream</span></li>
+          <li>Monster Kakigori <span>Matcha &amp; desserts</span></li>
+          <li>La Jawab <span>Indian cuisine</span></li>
+          <li>Singapore Sam&rsquo;s <span>Chinese</span></li>
+          <li>Carino <span>Japanese-Italian</span></li>
+          <li>Bul <span>Korean &amp; sushi</span></li>
+          <li>Jane Bond <span>American BBQ</span></li>
+          <li>Bodega by Sabor <span>Spanish tapas</span></li>
+        </ul>
+      </div>
+      <div class="explore-col">
+        <h3>Walks in Parks</h3>
+        <ul>
+          <li>Prince&rsquo;s Island Park <span>Where Subhrodeep proposed</span></li>
+          <li>Baker Park <span>Where our engagement photos were taken</span></li>
+          <li>Sue Higgins Dog Park</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EXPLORE CANMORE ============ -->
+<section class="explore alt" id="canmore">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Around the venue</span>
+      <h2>Explore Canmore</h2>
+    </div>
+
+    <figure class="section-photo">
+      <div class="photo-frame">
+        <img src="Wedding Website_files/0e306f13913e19eb0c3717e666fd5e82.jpg" alt="Views near Canmore" loading="lazy" onerror="this.closest('.photo-frame').classList.add('img-missing')">
+        <span class="photo-fallback">Photo not found</span>
+      </div>
+      <figcaption>Views near the venue</figcaption>
+    </figure>
+
+    <div class="explore-columns">
+      <div class="explore-col">
+        <h3>To Eat</h3>
+        <ul>
+          <li>Bridgette Bar</li>
+          <li>Rockette Pie Pizza</li>
+          <li>Rocky Mountain Bagel Co.</li>
+          <li>Rocky Mountain Flatbread Co.</li>
+        </ul>
+      </div>
+      <div class="explore-col">
+        <h3>Favourite Hikes &amp; Sights</h3>
+        <ul>
+          <li>Grassy Lakes <span>Easy</span></li>
+          <li>Heart Creek Trail <span>Easy</span></li>
+          <li>Ha Ling Peak <span>Hard</span></li>
+          <li>Canmore Nordic Centre <span>Walking distance from the venue</span></li>
+          <li>Canmore Engine Bridge</li>
+          <li>Three Sisters Viewpoint</li>
+        </ul>
+      </div>
+      <div class="explore-col">
+        <h3>Explore Beyond Canmore</h3>
+        <ul>
+          <li>Lake Louise <span>1 hour from Canmore</span></li>
+          <li>Emerald Lake <span>1.5 hours from Canmore</span></li>
+          <li>Banff <span>Our favourite hike: Tunnel Mountain</span></li>
+          <li>Kananaskis Nordic Spa <span>Book in advance</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <span class="nav-mark">Subhrodeep &amp; Cindy</span>
+    <p>July 3, 2027 &middot; Canmore, Alberta</p>
+    <div class="foot-links">
+      <a href="mailto:cindyzhangm@hotmail.com">Contact Us</a>
+      <a href="#rsvp">RSVP</a>
+    </div>
+    <small>Made with love for our wedding day.</small>
+  </div>
+</footer>
+
+<script>
+  // Mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+  });
+  // Close mobile menu after choosing a link
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Only one FAQ item open at a time
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.addEventListener('toggle', () => {
+      if (item.open) {
+        document.querySelectorAll('.faq-item').forEach(other => {
+          if (other !== item) other.open = false;
+        });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
