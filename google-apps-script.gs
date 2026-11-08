@@ -6,9 +6,10 @@
  *   2. save their answers into the "Responses" sheet.
  *
  * What the browser can learn from it
- *   - A lookup returns only the party name, the guest names and a yes/no
- *     "responded" flag. Saved answers, notes, dietary details and license
- *     plates are never sent back.
+ *   - A lookup returns the party name, the guest names and, if the party has
+ *     already responded, their saved answers (so they can review or change
+ *     them). Anyone who knows a guest's email can therefore see that party's
+ *     answers, including dietary details.
  *   - Repeated misses are throttled (see THROTTLE below), so the guest list
  *     can't be probed by trying email after email.
  *
@@ -38,13 +39,15 @@
  *
  * A "Responses" tab is created automatically. There is one row per guest, and
  * a guest who edits their RSVP replaces their party's earlier rows.
+ * If you already have a "Responses" tab from an older version of this script,
+ * delete it (or fix its headers to match RESPONSE_HEADERS) so the columns line up.
  */
 
 const GUESTS_SHEET = 'Guests';
 const RESPONSES_SHEET = 'Responses';
 const RESPONSE_HEADERS = [
-  'Timestamp', 'Party', 'Email used', 'Guest', 'Attending',
-  'Dietary restrictions', 'License plate', 'Taxi needed', 'Message',
+  'Timestamp', 'Party', 'Email used', 'Guest', 'Ceremony', 'Reception',
+  'Dietary restrictions', 'Parking at venue', 'Taxi needed', 'Message',
 ];
 const MAX_TEXT_LENGTH = 500;
 
@@ -89,12 +92,14 @@ function doGet(e) {
       return jsonResponse_({ ok: true, found: false });
     }
 
+    const response = savedResponse_(party);
     return jsonResponse_({
       ok: true,
       found: true,
       party: party.name,
       guests: party.guests,
-      responded: hasResponse_(party), // just yes/no — never the saved answers
+      responded: Boolean(response),
+      response: response && response.complete ? response.answers : null,
     });
   } catch (err) {
     console.error(err);
@@ -102,7 +107,15 @@ function doGet(e) {
   }
 }
 
-/** Save an RSVP: POST { email, attending: { "Guest Name": "yes"|"no" }, dietary, plate, taxi, message } */
+/**
+ * Save an RSVP: POST {
+ *   email,
+ *   ceremony:  { "Guest Name": "yes"|"no" },
+ *   reception: { "Guest Name": "yes"|"no" },
+ *   dietary:   { "Guest Name": "text" },
+ *   parking: "yes"|"no", taxi: "yes"|"no", message
+ * }
+ */
 function doPost(e) {
   const lock = LockService.getScriptLock();
   try {
@@ -258,18 +271,41 @@ function getResponsesSheet_() {
   return sheet;
 }
 
-/** True if this party has already saved an RSVP. */
-function hasResponse_(party) {
-  return getResponsesSheet_().getDataRange().getValues().slice(1)
-    .some(function (row) { return row[1] === party.name; });
+/**
+ * This party's saved answers, shaped like the POST body, or null if they
+ * haven't responded. `complete` is false when a guest on the invitation has
+ * no saved row (e.g. the Guests tab changed after they responded).
+ */
+function savedResponse_(party) {
+  const rows = getResponsesSheet_().getDataRange().getValues().slice(1)
+    .filter(function (row) { return row[1] === party.name; });
+  if (rows.length === 0) return null;
+
+  const lower = function (v) { return String(v).trim().toLowerCase(); };
+  const answers = { ceremony: {}, reception: {}, dietary: {}, parking: '', taxi: '', message: '' };
+  rows.forEach(function (row) {
+    const guest = String(row[3]);
+    answers.ceremony[guest] = lower(row[4]);
+    answers.reception[guest] = lower(row[5]);
+    answers.dietary[guest] = String(row[6]);
+    answers.parking = lower(row[7]);
+    answers.taxi = lower(row[8]);
+    answers.message = String(row[9]);
+  });
+
+  const complete = party.guests.every(function (guest) { return guest in answers.ceremony; });
+  return { complete: complete, answers: answers };
 }
 
 function writeResponse_(party, email, data) {
-  const attending = data.attending || {};
+  const ceremony = data.ceremony || {};
+  const reception = data.reception || {};
+  const dietary = data.dietary || {};
+  const isAnswer = function (v) { return v === 'yes' || v === 'no'; };
 
-  // Every guest on the invitation must have an answer.
+  // Every guest on the invitation must have an answer for both events.
   party.guests.forEach(function (guest) {
-    if (attending[guest] !== 'yes' && attending[guest] !== 'no') throw new Error('incomplete');
+    if (!isAnswer(ceremony[guest]) || !isAnswer(reception[guest])) throw new Error('incomplete');
   });
 
   const sheet = getResponsesSheet_();
@@ -280,19 +316,23 @@ function writeResponse_(party, email, data) {
     if (existing[i][1] === party.name) sheet.deleteRow(i + 1);
   }
 
-  const anyYes = party.guests.some(function (guest) { return attending[guest] === 'yes'; });
-  const dietary = anyYes ? cleanText_(data.dietary) : '';
-  const plate = anyYes ? cleanText_(data.plate) : '';
-  const taxi = anyYes && data.taxi === true ? 'Yes' : 'No';
+  const isComing = function (guest) { return ceremony[guest] === 'yes' || reception[guest] === 'yes'; };
+  const anyComing = party.guests.some(isComing);
+  const yesNo = function (v) { return v === 'yes' ? 'Yes' : 'No'; };
+  const parking = anyComing ? yesNo(data.parking) : 'No';
+  const taxi = anyComing ? yesNo(data.taxi) : 'No';
   const message = cleanText_(data.message);
   const now = new Date();
 
   const rows = party.guests.map(function (guest) {
-    return [now, party.name, email, guest, attending[guest] === 'yes' ? 'Yes' : 'No', dietary, plate, taxi, message];
+    return [
+      now, party.name, email, guest, yesNo(ceremony[guest]), yesNo(reception[guest]),
+      isComing(guest) ? cleanText_(dietary[guest]) : '', parking, taxi, message,
+    ];
   });
 
   const target = sheet.getRange(sheet.getLastRow() + 1, 1, rows.length, RESPONSE_HEADERS.length);
-  // Columns D–I are stored as plain text so a guest can't inject a spreadsheet formula (e.g. "=IMPORTDATA(…)").
+  // Columns D onward are stored as plain text so a guest can't inject a spreadsheet formula (e.g. "=IMPORTDATA(…)").
   sheet.getRange(target.getRow(), 4, rows.length, RESPONSE_HEADERS.length - 3).setNumberFormat('@');
   target.setValues(rows);
 }

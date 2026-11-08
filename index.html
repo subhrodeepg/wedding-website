@@ -568,9 +568,9 @@
   .dress-band .section-head p{ color:#cfd0b9; }
   .dress-grid{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:1fr;
     gap:28px;
-    max-width:640px;
+    max-width:320px;
     margin:0 auto;
   }
   .dress-card{
@@ -597,7 +597,6 @@
     border:1px solid rgba(255,255,255,0.35);
   }
   .dress-card p{ font-size:0.85rem; color:#cfd0b9; margin:0; }
-  @media (max-width:640px){ .dress-grid{ grid-template-columns:1fr; } }
 
   /* gift note */
   .gift-note{
@@ -609,6 +608,9 @@
   }
   .gift-note h3{ font-size:1.7rem; font-style:italic; margin-bottom:14px; }
   .gift-note p{ color:var(--sage-deep); font-size:0.95rem; }
+  .dress-band .gift-note{ border-top-color:rgba(255,255,255,0.18); }
+  .dress-band .gift-note h3{ color:#fff; }
+  .dress-band .gift-note p{ color:#cfd0b9; }
 
   /* ---------- FAQ ---------- */
   .faq{ background:var(--cream-soft); padding:96px 0; }
@@ -879,7 +881,7 @@
     <div class="hero-meta">
       <div><strong>July 3, 2027</strong>Wedding Day</div>
       <div><strong>Bill Warren Training Centre</strong>1995 Olympic Way, Canmore, AB</div>
-      <div><strong>3:00 PM</strong>&lsquo;Til Late</div>
+      <div><strong>2:30 PM</strong>&lsquo;Til Late</div>
     </div>
 
     <a class="hero-cta" href="#rsvp">Click here to RSVP</a>
@@ -930,7 +932,7 @@
         <span class="divider"></span>
         <p>Bill Warren Training Centre<br>1995 Olympic Way<br>Canmore, AB</p>
         <span class="divider"></span>
-        <p>3:00 PM &lsquo;til late</p>
+        <p>2:30 PM &lsquo;til late</p>
       </div>
 
       <img class="envelope" src="assets/envelope.png" alt="" aria-hidden="true">
@@ -984,7 +986,7 @@
     <div class="schedule-rail">
       <div class="event-card">
         <div class="event-dot"></div>
-        <span class="event-time">3:00 PM</span>
+        <span class="event-time">2:30 PM</span>
         <h3>The Ceremony</h3>
         <p>The wedding ceremony will take place on a charming patio overlooking the Rocky Mountains.</p>
       </div>
@@ -1039,11 +1041,11 @@
       <div class="info-card">
         <h3>Accommodations</h3>
         <p>Local Airbnbs and hotels are available in the Canmore area if guests would like to stay the night.</p>
+        <p>We&rsquo;ve arranged a discounted rate for our guests at the Coast Canmore Hotel &amp; Conference Centre. To book, call <a href="tel:+18007166199">1.800.716.6199</a> and quote the <strong>WED</strong> rate code, or book online at <a href="http://coa.st/610t" target="_blank" rel="noopener">coa.st/610t</a>.</p>
       </div>
       <div class="info-card">
         <h3>Parking &amp; Taxis</h3>
-        <p>The venue is in a provincial park and requires a parking pass &mdash; the bride and groom will cover the day pass for all guests. If you&rsquo;re driving, let us know so we can arrange your license plate details in advance.</p>
-        <p>Staying in Canmore and need a taxi back to your accommodations? Let us know that too.</p>
+        <p>The venue is in a provincial park and requires a parking pass &mdash; the bride and groom will cover the day parking pass for all guests. If you are planning to park at the venue, please indicate that on the RSVP form so we can reach out ahead of the wedding date to arrange for parking.</p>
       </div>
     </div>
   </div>
@@ -1060,22 +1062,13 @@
 
     <div class="dress-grid">
       <div class="dress-card">
-        <h4>Ceremony</h4>
+        <h4>Colour Palette</h4>
         <div class="swatches">
           <span class="swatch" style="background:#7B7F5F"></span>
-          <span class="swatch" style="background:#EFE8D8"></span>
-          <span class="swatch" style="background:#C39A46"></span>
-        </div>
-        <p>Sage, cream &amp; gold &mdash; mountain-patio tones</p>
-      </div>
-      <div class="dress-card">
-        <h4>Reception</h4>
-        <div class="swatches">
-          <span class="swatch" style="background:#A23A2C"></span>
-          <span class="swatch" style="background:#C39A46"></span>
           <span class="swatch" style="background:#333827"></span>
+          <span class="swatch" style="background:#C39A46"></span>
         </div>
-        <p>Lacquer red, gold &amp; deep pine &mdash; evening celebration tones</p>
+        <p>Sage, deep pine &amp; gold</p>
       </div>
     </div>
 
@@ -1106,7 +1099,7 @@
       </details>
       <details class="faq-item">
         <summary>What is the dress code?</summary>
-        <p>Formal attire is required; Western or Chinese style is acceptable. Guests can follow the colour scheme of each event above as guidance, if they&rsquo;d like.</p>
+        <p>Formal attire is required; Western or Chinese style is acceptable. Guests can follow the colour scheme of the event above as guidance, if they&rsquo;d like. Please refrain from wearing white at the ceremony.</p>
       </details>
       <details class="faq-item">
         <summary>What if it rains?</summary>
@@ -1114,7 +1107,7 @@
       </details>
       <details class="faq-item">
         <summary>What about parking and taxis?</summary>
-        <p>The venue requires a parking pass, which we&rsquo;ll cover for all guests &mdash; just let us know if you&rsquo;re driving so we can arrange it, and let us know if you&rsquo;ll need a taxi back to your accommodations in Canmore.</p>
+        <p>The venue requires a parking pass as it is located in a provincial park. A parking pass will be covered for all guests. Additionally, a taxi ride at the end of the night from the venue to any accommodations in the Canmore town area will be covered. Please indicate your transportation requirements in the RSVP form.</p>
       </details>
     </div>
 
@@ -1177,7 +1170,6 @@
           <li>Go-karting at WinSport</li>
           <li>Calgary Zoo</li>
           <li>Heritage Park</li>
-          <li>Shops &amp; consignment stores in Beltline, Mission, Inglewood or Kensington</li>
           <li>Calgary Stampede <span>Running July 9&ndash;18, 2027</span></li>
         </ul>
       </div>
@@ -1185,14 +1177,10 @@
         <h3>Eats</h3>
         <ul>
           <li>Korilla <span>Korean BBQ</span></li>
-          <li>An Sang <span>Vietnamese cuisine</span></li>
+          <li>An Sang <span>Vietnamese</span></li>
           <li>Milk YYC <span>Asian-inspired ice cream</span></li>
           <li>Monster Kakigori <span>Matcha &amp; desserts</span></li>
-          <li>La Jawab <span>Indian cuisine</span></li>
-          <li>Singapore Sam&rsquo;s <span>Chinese</span></li>
           <li>Carino <span>Japanese-Italian</span></li>
-          <li>Bul <span>Korean &amp; sushi</span></li>
-          <li>Jane Bond <span>American BBQ</span></li>
           <li>Bodega by Sabor <span>Spanish tapas</span></li>
         </ul>
       </div>
@@ -1201,7 +1189,7 @@
         <ul>
           <li>Prince&rsquo;s Island Park <span>Where Subhrodeep proposed</span></li>
           <li>Baker Park <span>Where our engagement photos were taken</span></li>
-          <li>Sue Higgins Dog Park</li>
+          <li>Pearce Estate Park</li>
         </ul>
       </div>
     </div>
@@ -1238,11 +1226,9 @@
         <h3>Favourite Hikes &amp; Sights</h3>
         <ul>
           <li>Grassy Lakes <span>Easy</span></li>
-          <li>Heart Creek Trail <span>Easy</span></li>
+          <li>Ptarmigan Cirque Trail <span>Medium</span></li>
           <li>Ha Ling Peak <span>Hard</span></li>
           <li>Canmore Nordic Centre <span>Walking distance from the venue</span></li>
-          <li>Canmore Engine Bridge</li>
-          <li>Three Sisters Viewpoint</li>
         </ul>
       </div>
       <div class="explore-col">

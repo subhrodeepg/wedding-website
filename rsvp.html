@@ -284,24 +284,35 @@
   }
   .choices input:focus-visible + label{ outline:2px solid var(--gold); outline-offset:2px; }
 
-  /* ---------- extras (only shown for guests who are attending) ---------- */
-  .extras{
-    margin:6px 0 4px;
-    padding-top:22px;
+  /* ---------- numbered questions ---------- */
+  .question{
+    margin:0 0 30px;
+    padding:26px 0 0;
+    border:0;
     border-top:1px solid var(--line);
   }
-  .check{
-    display:flex;
-    align-items:flex-start;
-    gap:10px;
-    margin:0 0 14px;
-    cursor:pointer;
+  .question legend{ float:left; width:100%; padding:0; }   /* float keeps the legend inside the border */
+  .question legend + *{ clear:both; }
+  .question h3{
+    margin:0 0 4px;
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:1.3rem;
+    line-height:1.25;
+    color:var(--pine);
   }
-  .check input{
-    flex-shrink:0;
-    width:18px; height:18px;
-    margin-top:4px;
-    accent-color:var(--sage-deep);
+  .when{ margin:0 0 18px; font-size:0.88rem; color:var(--sage-deep); }
+  .q-text{ margin:0 0 14px; color:var(--ink); }
+  .question .guest{ margin-bottom:16px; }
+  .question .guest legend{ font-size:1.15rem; margin-bottom:8px; }
+  .question .field{ margin-bottom:14px; }
+  .question .field-label{
+    font-family:var(--font-display);
+    font-size:1.15rem;
+    font-weight:400;
+    letter-spacing:0;
+    text-transform:none;
+    color:var(--pine);
   }
 
   /* ---------- confirmation ---------- */
@@ -318,8 +329,10 @@
     padding:12px 0;
     border-bottom:1px solid var(--line);
   }
+  .statuses{ display:flex; flex-direction:column; align-items:flex-end; text-align:right; font-size:0.9rem; }
   .status-yes{ color:var(--sage-deep); font-weight:500; }
   .status-no{  color:var(--lacquer-deep); }
+  .status-detail{ color:var(--ink); }
   .actions{
     display:flex;
     flex-direction:column;
@@ -353,8 +366,8 @@
 <body>
 
 <header class="topbar">
-  <a class="mark" href="wedding-website.html">S &amp; C</a>
-  <a class="back" href="wedding-website.html">Back to the website</a>
+  <a class="mark" href="index.html">S &amp; C</a>
+  <a class="back" href="index.html">Back to the website</a>
 </header>
 
 <main class="stage">
@@ -398,28 +411,43 @@
         <p class="note" id="respondedNote" hidden></p>
 
         <form id="rsvpForm" novalidate>
-          <div id="guestList"></div>
+          <div class="question">
+            <h3>Attendance Status &mdash; Wedding Ceremony</h3>
+            <p class="when">Jul 3, 2027 &middot; 2:30&ndash;3:00 PM</p>
+            <div id="ceremonyList"></div>
+          </div>
 
-          <div class="extras" id="extras" hidden>
-            <div class="field">
-              <label class="field-label" for="dietary">Dietary restrictions</label>
-              <input id="dietary" type="text" maxlength="200" placeholder="Allergies, vegetarian, etc. (optional)">
+          <div class="question">
+            <h3>Attendance Status &mdash; Wedding Reception</h3>
+            <p class="when">Jul 3, 2027 &middot; 5:00 PM &ndash; late</p>
+            <div id="receptionList"></div>
+          </div>
+
+          <div id="extras" hidden>
+            <div class="question">
+              <h3>Dietary Restrictions</h3>
+              <p class="when">Leave blank if none.</p>
+              <div id="dietaryList"></div>
             </div>
 
-            <label class="check">
-              <input type="checkbox" id="driving">
-              <span>I&rsquo;ll be driving and parking at the venue</span>
-            </label>
-            <div class="field" id="plateField" hidden>
-              <label class="field-label" for="plate">License plate</label>
-              <input id="plate" type="text" maxlength="15" autocapitalize="characters" autocomplete="off">
-              <p class="hint">The venue is in a provincial park and needs a parking pass for every vehicle.</p>
-            </div>
+            <fieldset class="question">
+              <legend><h3>Parking at the Venue</h3></legend>
+              <p class="q-text">Do you plan on parking at the wedding venue?</p>
+              <div class="choices">
+                <input type="radio" id="parking-yes" name="parking" value="yes"><label for="parking-yes">Yes</label>
+                <input type="radio" id="parking-no" name="parking" value="no"><label for="parking-no">No</label>
+              </div>
+              <p class="hint">We will reach out ahead of the wedding date to confirm the license plate of your vehicle. The parking pass will be associated with your license plate.</p>
+            </fieldset>
 
-            <label class="check">
-              <input type="checkbox" id="taxi">
-              <span>I&rsquo;ll need a taxi back to my accommodations in Canmore</span>
-            </label>
+            <fieldset class="question">
+              <legend><h3>Taxi from the Venue</h3></legend>
+              <p class="q-text">A taxi service will be available from 9:00 PM &ndash; midnight from the venue to any local accommodations in the Canmore town area. Will you require a taxi service from the venue to a local Canmore accommodation?</p>
+              <div class="choices">
+                <input type="radio" id="taxi-yes" name="taxi" value="yes"><label for="taxi-yes">Yes</label>
+                <input type="radio" id="taxi-no" name="taxi" value="no"><label for="taxi-no">No</label>
+              </div>
+            </fieldset>
           </div>
 
           <div class="field">
@@ -440,7 +468,7 @@
         <ul class="summary" id="summary"></ul>
         <div class="actions">
           <button class="btn" id="editBtn" type="button">Change my response</button>
-          <a class="btn-link" href="wedding-website.html">Back to the website</a>
+          <a class="btn-link" href="index.html">Back to the website</a>
         </div>
       </section>
     </div>
@@ -463,7 +491,7 @@
      with a built-in demo guest, so you can try the whole flow.
      ============================================================ */
   const CONFIG = {
-    appsScriptUrl: '',
+    appsScriptUrl: 'https://script.google.com/macros/s/AKfycbxv-FUXR2wR-dcxP5yAP17e03D2rXKBsgZGLJEp7A_uAx5Jbf2AHmyyN4nj_JcgLDNQ/exec',
     contactEmail: 'cindyzhangm@hotmail.com',
     rsvpDeadline: 'February 15, 2027',
     requestTimeoutMs: 15000,
@@ -495,13 +523,10 @@
     loginBtn:   $('loginBtn'),
     formTitle:  $('formTitle'),
     rsvpForm:   $('rsvpForm'),
-    guestList:  $('guestList'),
+    ceremonyList:  $('ceremonyList'),
+    receptionList: $('receptionList'),
+    dietaryList:   $('dietaryList'),
     extras:     $('extras'),
-    dietary:    $('dietary'),
-    driving:    $('driving'),
-    plateField: $('plateField'),
-    plate:      $('plate'),
-    taxi:       $('taxi'),
     message:    $('message'),
     formMsg:    $('formMsg'),
     submitBtn:  $('submitBtn'),
@@ -514,14 +539,15 @@
   const steps = { login: $('stepLogin'), form: $('stepForm'), done: $('stepDone') };
 
   // What we know about the person who is logged in. `responded` says a saved RSVP
-  // exists; `response` holds answers only after they were entered in this visit
-  // (the server never sends saved answers back).
+  // exists; `response` holds the saved answers (from the server, or from this visit).
+  // It can be null while `responded` is true if the saved answers no longer match the
+  // guest list, in which case the guest is asked to fill the form in again.
   let state = { email: '', party: '', guests: [], responded: false, response: null };
 
   /* ============================================================
      API — talks to the Google Apps Script web app
-       GET  ?action=lookup&email=…  -> { ok, found, party, guests, responded }
-       POST { email, attending, … } -> { ok }
+       GET  ?action=lookup&email=…  -> { ok, found, party, guests, responded, response }
+       POST { email, ceremony, reception, dietary, parking, taxi, message } -> { ok }
      Either call can answer { ok: false, error: 'rate_limited', retryAfterSeconds }.
      ============================================================ */
   async function request(url, options = {}) {
@@ -563,11 +589,13 @@
         party: 'Alex & Sam',
         guests: ['Alex Demo', 'Sam Demo'],
         responded: Boolean(demoStore.response),
+        response: demoStore.response,
       };
     },
     async submit(payload) {
       await delay(600);
-      demoStore.response = true;
+      const { email, ...answers } = payload;
+      demoStore.response = answers;
       return { ok: true };
     },
   };
@@ -598,47 +626,65 @@
   }
 
   /* ---------- step 2: build the form for this invitation ---------- */
-  function radioPair(guestIndex, value, label) {
-    const id = `guest-${guestIndex}-${value}`;
+  const EVENTS = { ceremony: 'Ceremony', reception: 'Reception' };
+
+  function radioPair(event, guestIndex, value, label) {
+    const id = `${event}-${guestIndex}-${value}`;
     return [
-      el('input', { type: 'radio', id, name: `guest-${guestIndex}`, value }),
+      el('input', { type: 'radio', id, name: `${event}-${guestIndex}`, value }),
       el('label', { for: id, text: label }),
     ];
   }
 
-  function buildGuestFieldset(name, index) {
+  function buildGuestFieldset(event, name, index) {
     return el('fieldset', { class: 'guest' },
       el('legend', { text: name }),
       el('div', { class: 'choices' },
-        ...radioPair(index, 'yes', 'Joyfully accepts'),
-        ...radioPair(index, 'no', 'Regretfully declines'),
+        ...radioPair(event, index, 'yes', 'Joyfully accepts'),
+        ...radioPair(event, index, 'no', 'Regretfully declines'),
       ),
     );
   }
 
-  // Extras (dietary, parking, taxi) only matter if at least one guest is coming.
+  function buildDietaryField(name, index) {
+    const id = `dietary-${index}`;
+    return el('div', { class: 'field', id: `${id}-field` },
+      el('label', { class: 'field-label', for: id, text: name }),
+      el('input', { id, type: 'text', maxlength: '200', placeholder: 'Allergies, vegetarian, etc.' }),
+    );
+  }
+
+  const checkedValue = (name) => els.rsvpForm.querySelector(`input[name="${name}"]:checked`)?.value;
+  const isComing = (i) => checkedValue(`ceremony-${i}`) === 'yes' || checkedValue(`reception-${i}`) === 'yes';
+
+  // Dietary, parking and taxi only matter for guests who are coming to at least one event.
   function syncConditionalFields() {
-    const anyYes = state.guests.some((_, i) =>
-      els.rsvpForm.querySelector(`input[name="guest-${i}"]:checked`)?.value === 'yes');
-    els.extras.hidden = !anyYes;
-    els.plateField.hidden = !(anyYes && els.driving.checked);
+    const anyComing = state.guests.some((_, i) => isComing(i));
+    els.extras.hidden = !anyComing;
+    state.guests.forEach((_, i) => { $(`dietary-${i}-field`).hidden = !isComing(i); });
   }
 
   function renderForm() {
     const previous = state.response || {};
 
     els.formTitle.textContent = `Welcome, ${state.party}`;
-    els.guestList.replaceChildren(...state.guests.map(buildGuestFieldset));
+    els.ceremonyList.replaceChildren(...state.guests.map((name, i) => buildGuestFieldset('ceremony', name, i)));
+    els.receptionList.replaceChildren(...state.guests.map((name, i) => buildGuestFieldset('reception', name, i)));
+    els.dietaryList.replaceChildren(...state.guests.map(buildDietaryField));
 
     state.guests.forEach((name, i) => {
-      const answer = previous.attending && previous.attending[name];
-      if (answer === 'yes' || answer === 'no') $(`guest-${i}-${answer}`).checked = true;
+      for (const event of Object.keys(EVENTS)) {
+        const answer = previous[event] && previous[event][name];
+        if (answer === 'yes' || answer === 'no') $(`${event}-${i}-${answer}`).checked = true;
+      }
+      $(`dietary-${i}`).value = (previous.dietary && previous.dietary[name]) || '';
     });
 
-    els.dietary.value = previous.dietary || '';
-    els.plate.value   = previous.plate || '';
-    els.driving.checked = Boolean(previous.plate);
-    els.taxi.checked    = Boolean(previous.taxi);
+    for (const name of ['parking', 'taxi']) {
+      els.rsvpForm.querySelectorAll(`input[name="${name}"]`).forEach((input) => {
+        input.checked = input.value === previous[name];
+      });
+    }
     els.message.value = previous.message || '';
     setMessage(els.formMsg, '');
 
@@ -651,22 +697,40 @@
   }
 
   /* ---------- step 3: confirmation ---------- */
-  function renderDone() {
-    const { attending } = state.response;
-    const coming = state.guests.filter((name) => attending[name] === 'yes');
+  // `returning` is true when showing answers saved on an earlier visit.
+  function renderDone(returning = false) {
+    const { ceremony, reception, dietary = {}, parking, taxi } = state.response;
+    const coming = state.guests.filter((name) => ceremony[name] === 'yes' || reception[name] === 'yes');
 
-    els.doneTitle.textContent = coming.length ? 'Thank you \u2014 see you there!' : 'We\u2019ll miss you';
-    els.doneLede.textContent = coming.length
-      ? `Your RSVP has been received. You can come back with the same email any time before ${CONFIG.rsvpDeadline} to make changes.`
-      : `Thank you for letting us know. If your plans change, you can come back with the same email before ${CONFIG.rsvpDeadline}.`;
+    if (returning) {
+      els.doneTitle.textContent = `Welcome back, ${state.party}`;
+      els.doneLede.textContent = `Here\u2019s the RSVP we have on file. You can change it any time before ${CONFIG.rsvpDeadline}.`;
+    } else {
+      els.doneTitle.textContent = coming.length ? 'Thank you \u2014 see you there!' : 'We\u2019ll miss you';
+      els.doneLede.textContent = coming.length
+        ? `Your RSVP has been received. You can come back with the same email any time before ${CONFIG.rsvpDeadline} to make changes.`
+        : `Thank you for letting us know. If your plans change, you can come back with the same email before ${CONFIG.rsvpDeadline}.`;
+    }
 
-    els.summary.replaceChildren(...state.guests.map((name) => {
-      const yes = attending[name] === 'yes';
+    const guestRows = state.guests.map((name) => {
+      const answers = Object.entries(EVENTS).map(([event, label]) => {
+        const yes = state.response[event][name] === 'yes';
+        return el('span', { class: yes ? 'status-yes' : 'status-no', text: `${label}: ${yes ? 'Joyfully accepts' : 'Regretfully declines'}` });
+      });
+      if (coming.includes(name) && dietary[name]) answers.push(el('span', { class: 'status-detail', text: `Dietary: ${dietary[name]}` }));
       return el('li', {},
         el('span', { text: name }),
-        el('span', { class: yes ? 'status-yes' : 'status-no', text: yes ? 'Joyfully accepts' : 'Regretfully declines' }),
+        el('span', { class: 'statuses' }, ...answers),
       );
-    }));
+    });
+
+    const yesNo = (value) => (value === 'yes' ? 'Yes' : 'No');
+    const extraRows = coming.length ? [
+      el('li', {}, el('span', { text: 'Parking at the venue' }), el('span', { class: 'status-detail', text: yesNo(parking) })),
+      el('li', {}, el('span', { text: 'Taxi from the venue' }), el('span', { class: 'status-detail', text: yesNo(taxi) })),
+    ] : [];
+
+    els.summary.replaceChildren(...guestRows, ...extraRows);
   }
 
   /* ============================================================
@@ -698,9 +762,17 @@
         return;
       }
 
-      state = { email, party: result.party, guests: result.guests, responded: Boolean(result.responded), response: null };
-      renderForm();
-      showStep('form');
+      state = {
+        email, party: result.party, guests: result.guests,
+        responded: Boolean(result.responded), response: result.response || null,
+      };
+      if (state.response) {
+        renderDone(true);
+        showStep('done');
+      } else {
+        renderForm();
+        showStep('form');
+      }
     } catch (error) {
       console.error(error);
       setMessage(els.loginMsg, 'Something went wrong reaching our guest list. Please try again in a moment.');
@@ -714,25 +786,40 @@
   els.rsvpForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    // Every guest on the invitation needs an answer.
-    const attending = {};
-    for (let i = 0; i < state.guests.length; i++) {
-      const chosen = els.rsvpForm.querySelector(`input[name="guest-${i}"]:checked`);
-      if (!chosen) {
-        setMessage(els.formMsg, `Please choose an answer for ${state.guests[i]}.`);
-        $(`guest-${i}-yes`).focus();
-        return;
+    // Every guest on the invitation needs an answer for both events.
+    const answers = { ceremony: {}, reception: {} };
+    for (const [event, label] of Object.entries(EVENTS)) {
+      for (let i = 0; i < state.guests.length; i++) {
+        const chosen = checkedValue(`${event}-${i}`);
+        if (!chosen) {
+          setMessage(els.formMsg, `Please choose a ${label.toLowerCase()} answer for ${state.guests[i]}.`);
+          $(`${event}-${i}-yes`).focus();
+          return;
+        }
+        answers[event][state.guests[i]] = chosen;
       }
-      attending[state.guests[i]] = chosen.value;
     }
 
-    const anyYes = Object.values(attending).includes('yes');
+    const anyComing = state.guests.some((_, i) => isComing(i));
+    if (anyComing) {
+      for (const [name, label] of [['parking', 'parking'], ['taxi', 'taxi service']]) {
+        if (!checkedValue(name)) {
+          setMessage(els.formMsg, `Please let us know about ${label}.`);
+          $(`${name}-yes`).focus();
+          return;
+        }
+      }
+    }
+
+    const dietary = {};
+    state.guests.forEach((name, i) => { dietary[name] = isComing(i) ? $(`dietary-${i}`).value.trim() : ''; });
+
     const payload = {
       email: state.email,
-      attending,
-      dietary: anyYes ? els.dietary.value.trim() : '',
-      plate:   anyYes && els.driving.checked ? els.plate.value.trim() : '',
-      taxi:    anyYes && els.taxi.checked,
+      ...answers,
+      dietary,
+      parking: anyComing ? checkedValue('parking') : '',
+      taxi:    anyComing ? checkedValue('taxi') : '',
       message: els.message.value.trim(),
     };
 
