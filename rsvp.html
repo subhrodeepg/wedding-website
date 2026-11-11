@@ -308,6 +308,18 @@
   .when{ margin:0 0 18px; font-size:0.88rem; color:var(--sage-deep); }
   .q-text{ margin:0 0 14px; color:var(--ink); }
   .question .guest{ margin-bottom:16px; }
+  .party-names{ margin:0 0 10px; font-family:var(--font-display); font-size:1.15rem; color:var(--pine); }
+  .attendees{ display:grid; gap:10px; }
+  .attendee{
+    display:flex; align-items:center; gap:12px;
+    min-height:52px; padding:12px 16px;
+    font-family:var(--font-display); font-size:1.15rem; color:var(--pine);
+    background:#fff; border:1px solid rgba(43,46,34,0.25); border-radius:4px;
+    cursor:pointer; transition:background .15s ease, border-color .15s ease;
+  }
+  .attendee:hover{ border-color:var(--sage-deep); }
+  .attendee:has(input:checked){ background:var(--cream-soft); border-color:var(--sage-deep); }
+  .attendee input{ flex-shrink:0; width:20px; height:20px; margin:0; accent-color:var(--sage-deep); }
   .question .guest legend{ font-size:1.15rem; margin-bottom:8px; }
   .question .field{ margin-bottom:14px; }
   .question .field-label{
@@ -416,16 +428,20 @@
 
         <form id="rsvpForm" novalidate>
           <div class="question">
-            <h3>Attendance Status &mdash; Wedding Ceremony</h3>
-            <p class="when">Jul 3, 2027 &middot; 2:30&ndash;3:00 PM</p>
-            <div id="ceremonyList"></div>
+            <h3>Who&rsquo;s Attending?</h3>
+            <p class="when">Check everyone in your party who will be celebrating with us. Leave a name unchecked if they can&rsquo;t make it.</p>
+            <div class="attendees" id="attendeeList"></div>
           </div>
 
-          <div class="question">
-            <h3>Attendance Status &mdash; Wedding Reception</h3>
-            <p class="when">Jul 3, 2027 &middot; 5:00 PM &ndash; late</p>
-            <div id="receptionList"></div>
-          </div>
+          <fieldset class="question" id="eventQuestion" hidden>
+            <legend><h3>Attendance Status &mdash; Wedding Ceremony &amp; Reception</h3></legend>
+            <p class="when">Jul 3, 2027 &middot; Ceremony 2:30&ndash;3:00 PM &middot; Reception 5:00 PM &ndash; late</p>
+            <p class="party-names" id="attendingNames"></p>
+            <div class="choices">
+              <input type="radio" id="event-yes" name="event" value="yes"><label for="event-yes">Joyfully accepts</label>
+              <input type="radio" id="event-no" name="event" value="no"><label for="event-no">Regretfully declines</label>
+            </div>
+          </fieldset>
 
           <div id="extras" hidden>
             <div class="question">
@@ -527,8 +543,9 @@
     loginBtn:   $('loginBtn'),
     formTitle:  $('formTitle'),
     rsvpForm:   $('rsvpForm'),
-    ceremonyList:  $('ceremonyList'),
-    receptionList: $('receptionList'),
+    attendeeList:  $('attendeeList'),
+    eventQuestion:  $('eventQuestion'),
+    attendingNames: $('attendingNames'),
     dietaryList:   $('dietaryList'),
     extras:     $('extras'),
     message:    $('message'),
@@ -551,7 +568,7 @@
   /* ============================================================
      API — talks to the Google Apps Script web app
        GET  ?action=lookup&email=…  -> { ok, found, party, guests, responded, response }
-       POST { email, ceremony, reception, dietary, parking, taxi, message } -> { ok }
+       POST { email, attending, ceremony, reception, dietary, parking, taxi, message } -> { ok }
      Either call can answer { ok: false, error: 'rate_limited', retryAfterSeconds }.
      ============================================================ */
   async function request(url, options = {}) {
@@ -630,23 +647,10 @@
   }
 
   /* ---------- step 2: build the form for this invitation ---------- */
-  const EVENTS = { ceremony: 'Ceremony', reception: 'Reception' };
-
-  function radioPair(event, guestIndex, value, label) {
-    const id = `${event}-${guestIndex}-${value}`;
-    return [
-      el('input', { type: 'radio', id, name: `${event}-${guestIndex}`, value }),
-      el('label', { for: id, text: label }),
-    ];
-  }
-
-  function buildGuestFieldset(event, name, index) {
-    return el('fieldset', { class: 'guest' },
-      el('legend', { text: name }),
-      el('div', { class: 'choices' },
-        ...radioPair(event, index, 'yes', 'Joyfully accepts'),
-        ...radioPair(event, index, 'no', 'Regretfully declines'),
-      ),
+  function buildAttendee(name, index) {
+    return el('label', { class: 'attendee' },
+      el('input', { type: 'checkbox', id: `attend-${index}` }),
+      el('span', { text: name }),
     );
   }
 
@@ -659,34 +663,37 @@
   }
 
   const checkedValue = (name) => els.rsvpForm.querySelector(`input[name="${name}"]:checked`)?.value;
-  const isComing = (i) => checkedValue(`ceremony-${i}`) === 'yes' || checkedValue(`reception-${i}`) === 'yes';
+  const isAttending = (i) => $(`attend-${i}`).checked;
+  const isComing = (i) => isAttending(i) && checkedValue('event') === 'yes';
+  const checkedNames = () => state.guests.filter((_, i) => isAttending(i));
 
-  // Dietary, parking and taxi only matter for guests who are coming to at least one event.
+  // The ceremony & reception question covers everyone who is checked, as one group.
+  // Dietary, parking and taxi only matter once that group has accepted.
   function syncConditionalFields() {
-    const anyComing = state.guests.some((_, i) => isComing(i));
-    els.extras.hidden = !anyComing;
+    const names = checkedNames();
+    els.eventQuestion.hidden = names.length === 0;
+    els.attendingNames.textContent = names.join(' & ');
     state.guests.forEach((_, i) => { $(`dietary-${i}-field`).hidden = !isComing(i); });
+    els.extras.hidden = !state.guests.some((_, i) => isComing(i));
   }
 
   function renderForm() {
     const previous = state.response || {};
 
     els.formTitle.textContent = `Welcome, ${state.party}`;
-    els.ceremonyList.replaceChildren(...state.guests.map((name, i) => buildGuestFieldset('ceremony', name, i)));
-    els.receptionList.replaceChildren(...state.guests.map((name, i) => buildGuestFieldset('reception', name, i)));
+    els.attendeeList.replaceChildren(...state.guests.map(buildAttendee));
     els.dietaryList.replaceChildren(...state.guests.map(buildDietaryField));
 
     state.guests.forEach((name, i) => {
-      for (const event of Object.keys(EVENTS)) {
-        const answer = previous[event] && previous[event][name];
-        if (answer === 'yes' || answer === 'no') $(`${event}-${i}-${answer}`).checked = true;
-      }
+      $(`attend-${i}`).checked = comingIn(previous, name);
       $(`dietary-${i}`).value = (previous.dietary && previous.dietary[name]) || '';
     });
 
-    for (const name of ['parking', 'taxi']) {
+    const anyComing = state.guests.some((name) => comingIn(previous, name));
+    for (const name of ['event', 'parking', 'taxi']) {
+      const value = name === 'event' ? (anyComing ? 'yes' : '') : previous[name];
       els.rsvpForm.querySelectorAll(`input[name="${name}"]`).forEach((input) => {
-        input.checked = input.value === previous[name];
+        input.checked = input.value === value;
       });
     }
     els.message.value = previous.message || '';
@@ -694,37 +701,46 @@
 
     els.respondedNote.hidden = !state.responded;
     els.respondedNote.textContent = state.response
-      ? 'You\u2019ve already responded. Update your answers below and send to replace them.'
-      : 'We already have an RSVP on file for you. Please fill in your answers again \u2014 sending will replace the earlier ones.';
+      ? 'You’ve already responded. Update your answers below and send to replace them.'
+      : 'We already have an RSVP on file for you. Please fill in your answers again — sending will replace the earlier ones.';
 
     syncConditionalFields();
+  }
+
+  // Whether a saved response has this guest coming to the wedding. Responses saved
+  // before the "Who's attending?" question existed have no `attending`, so only the
+  // event answers count for those.
+  function comingIn(response, name) {
+    if (!response || !response.ceremony) return false;
+    if (response.attending && response.attending[name] !== 'yes') return false;
+    return response.ceremony[name] === 'yes' || response.reception[name] === 'yes';
   }
 
   /* ---------- step 3: confirmation ---------- */
   // `returning` is true when showing answers saved on an earlier visit.
   function renderDone(returning = false) {
-    const { ceremony, reception, dietary = {}, parking, taxi } = state.response;
-    const coming = state.guests.filter((name) => ceremony[name] === 'yes' || reception[name] === 'yes');
+    const { dietary = {}, parking, taxi } = state.response;
+    const coming = state.guests.filter((name) => comingIn(state.response, name));
 
     if (returning) {
       els.doneTitle.textContent = `Welcome back, ${state.party}`;
-      els.doneLede.textContent = `Here\u2019s the RSVP we have on file. You can change it any time before ${CONFIG.rsvpDeadline}.`;
+      els.doneLede.textContent = `Here’s the RSVP we have on file. You can change it any time before ${CONFIG.rsvpDeadline}.`;
     } else {
-      els.doneTitle.textContent = coming.length ? 'Thank you \u2014 see you there!' : 'We\u2019ll miss you';
+      els.doneTitle.textContent = coming.length ? 'Thank you — see you there!' : 'We’ll miss you';
       els.doneLede.textContent = coming.length
         ? `Your RSVP has been received. You can come back with the same email any time before ${CONFIG.rsvpDeadline} to make changes.`
         : `Thank you for letting us know. If your plans change, you can come back with the same email before ${CONFIG.rsvpDeadline}.`;
     }
 
     const guestRows = state.guests.map((name) => {
-      const answers = Object.entries(EVENTS).map(([event, label]) => {
-        const yes = state.response[event][name] === 'yes';
-        return el('span', { class: yes ? 'status-yes' : 'status-no', text: `${label}: ${yes ? 'Joyfully accepts' : 'Regretfully declines'}` });
-      });
-      if (coming.includes(name) && dietary[name]) answers.push(el('span', { class: 'status-detail', text: `Dietary: ${dietary[name]}` }));
+      if (!coming.includes(name)) {
+        return el('li', {}, el('span', { text: name }), el('span', { class: 'status-no', text: 'Not attending' }));
+      }
+      const details = [el('span', { class: 'status-yes', text: 'Joyfully accepts' })];
+      if (dietary[name]) details.push(el('span', { class: 'status-detail', text: `Dietary: ${dietary[name]}` }));
       return el('li', {},
         el('span', { text: name }),
-        el('span', { class: 'statuses' }, ...answers),
+        el('span', { class: 'statuses' }, ...details),
       );
     });
 
@@ -790,19 +806,21 @@
   els.rsvpForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    // Every guest on the invitation needs an answer for both events.
-    const answers = { ceremony: {}, reception: {} };
-    for (const [event, label] of Object.entries(EVENTS)) {
-      for (let i = 0; i < state.guests.length; i++) {
-        const chosen = checkedValue(`${event}-${i}`);
-        if (!chosen) {
-          setMessage(els.formMsg, `Please choose a ${label.toLowerCase()} answer for ${state.guests[i]}.`);
-          $(`${event}-${i}-yes`).focus();
-          return;
-        }
-        answers[event][state.guests[i]] = chosen;
-      }
+    // One answer covers the ceremony and reception for everyone checked. The sheet
+    // still has separate Ceremony and Reception columns, so both get the same answer.
+    const names = checkedNames();
+    if (names.length && !checkedValue('event')) {
+      setMessage(els.formMsg, `Please let us know whether ${names.join(' & ')} will join us.`);
+      $('event-yes').focus();
+      return;
     }
+    const answers = { attending: {}, ceremony: {}, reception: {} };
+    state.guests.forEach((name, i) => {
+      const value = isComing(i) ? 'yes' : 'no';
+      answers.attending[name] = value;
+      answers.ceremony[name] = value;
+      answers.reception[name] = value;
+    });
 
     const anyComing = state.guests.some((_, i) => isComing(i));
     if (anyComing) {

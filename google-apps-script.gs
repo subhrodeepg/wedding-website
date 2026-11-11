@@ -39,16 +39,18 @@
  *
  * A "Responses" tab is created automatically. There is one row per guest, and
  * a guest who edits their RSVP replaces their party's earlier rows.
- * If you already have a "Responses" tab from an older version of this script,
- * delete it (or fix its headers to match RESPONSE_HEADERS) so the columns line up.
+ * A Responses tab from the previous version (without the "Attending" column)
+ * is upgraded automatically the next time the script runs.
  */
 
 const GUESTS_SHEET = 'Guests';
 const RESPONSES_SHEET = 'Responses';
 const RESPONSE_HEADERS = [
-  'Timestamp', 'Party', 'Email used', 'Guest', 'Ceremony', 'Reception',
+  'Timestamp', 'Party', 'Email used', 'Guest', 'Attending', 'Ceremony', 'Reception',
   'Dietary restrictions', 'Parking at venue', 'Taxi needed', 'Message',
 ];
+// Column numbers (0-based) in RESPONSE_HEADERS.
+const COL = { party: 1, guest: 3, attending: 4, ceremony: 5, reception: 6, dietary: 7, parking: 8, taxi: 9, message: 10 };
 const MAX_TEXT_LENGTH = 500;
 
 /**
@@ -110,6 +112,7 @@ function doGet(e) {
 /**
  * Save an RSVP: POST {
  *   email,
+ *   attending: { "Guest Name": "yes"|"no" },   // the "Who's attending?" checkboxes
  *   ceremony:  { "Guest Name": "yes"|"no" },
  *   reception: { "Guest Name": "yes"|"no" },
  *   dietary:   { "Guest Name": "text" },
@@ -268,7 +271,25 @@ function getResponsesSheet_() {
     sheet.setFrozenRows(1);
     sheet.getRange(1, 1, 1, RESPONSE_HEADERS.length).setFontWeight('bold');
   }
+  upgradeResponsesSheet_(sheet);
   return sheet;
+}
+
+/**
+ * Responses tabs made by the previous version have no "Attending" column.
+ * Insert it after "Guest" and fill it in: a guest who accepted either event was attending.
+ */
+function upgradeResponsesSheet_(sheet) {
+  const header = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  if (header[COL.attending] !== 'Ceremony') return; // already upgraded (or not the old layout)
+
+  sheet.insertColumnAfter(COL.guest + 1);
+  sheet.getRange(1, COL.attending + 1).setValue('Attending').setFontWeight('bold');
+  const rows = sheet.getLastRow() - 1;
+  if (rows < 1) return;
+  const events = sheet.getRange(2, COL.ceremony + 1, rows, 2).getValues();
+  const attending = events.map(function (e) { return [e[0] === 'Yes' || e[1] === 'Yes' ? 'Yes' : 'No']; });
+  sheet.getRange(2, COL.attending + 1, rows, 1).setNumberFormat('@').setValues(attending);
 }
 
 /**
@@ -278,19 +299,20 @@ function getResponsesSheet_() {
  */
 function savedResponse_(party) {
   const rows = getResponsesSheet_().getDataRange().getValues().slice(1)
-    .filter(function (row) { return row[1] === party.name; });
+    .filter(function (row) { return row[COL.party] === party.name; });
   if (rows.length === 0) return null;
 
   const lower = function (v) { return String(v).trim().toLowerCase(); };
-  const answers = { ceremony: {}, reception: {}, dietary: {}, parking: '', taxi: '', message: '' };
+  const answers = { attending: {}, ceremony: {}, reception: {}, dietary: {}, parking: '', taxi: '', message: '' };
   rows.forEach(function (row) {
-    const guest = String(row[3]);
-    answers.ceremony[guest] = lower(row[4]);
-    answers.reception[guest] = lower(row[5]);
-    answers.dietary[guest] = String(row[6]);
-    answers.parking = lower(row[7]);
-    answers.taxi = lower(row[8]);
-    answers.message = String(row[9]);
+    const guest = String(row[COL.guest]);
+    answers.attending[guest] = lower(row[COL.attending]);
+    answers.ceremony[guest] = lower(row[COL.ceremony]);
+    answers.reception[guest] = lower(row[COL.reception]);
+    answers.dietary[guest] = String(row[COL.dietary]);
+    answers.parking = lower(row[COL.parking]);
+    answers.taxi = lower(row[COL.taxi]);
+    answers.message = String(row[COL.message]);
   });
 
   const complete = party.guests.every(function (guest) { return guest in answers.ceremony; });
@@ -298,14 +320,16 @@ function savedResponse_(party) {
 }
 
 function writeResponse_(party, email, data) {
+  const attending = data.attending || {};
   const ceremony = data.ceremony || {};
   const reception = data.reception || {};
   const dietary = data.dietary || {};
   const isAnswer = function (v) { return v === 'yes' || v === 'no'; };
 
-  // Every guest on the invitation must have an answer for both events.
+  // Every guest must be marked attending or not; attending guests need an answer for both events.
   party.guests.forEach(function (guest) {
-    if (!isAnswer(ceremony[guest]) || !isAnswer(reception[guest])) throw new Error('incomplete');
+    if (!isAnswer(attending[guest])) throw new Error('incomplete');
+    if (attending[guest] === 'yes' && (!isAnswer(ceremony[guest]) || !isAnswer(reception[guest]))) throw new Error('incomplete');
   });
 
   const sheet = getResponsesSheet_();
@@ -313,10 +337,13 @@ function writeResponse_(party, email, data) {
   // Replace any earlier answers for this party.
   const existing = sheet.getDataRange().getValues();
   for (let i = existing.length - 1; i >= 1; i--) {
-    if (existing[i][1] === party.name) sheet.deleteRow(i + 1);
+    if (existing[i][COL.party] === party.name) sheet.deleteRow(i + 1);
   }
 
-  const isComing = function (guest) { return ceremony[guest] === 'yes' || reception[guest] === 'yes'; };
+  const isAttending = function (guest) { return attending[guest] === 'yes'; };
+  const isComing = function (guest) {
+    return isAttending(guest) && (ceremony[guest] === 'yes' || reception[guest] === 'yes');
+  };
   const anyComing = party.guests.some(isComing);
   const yesNo = function (v) { return v === 'yes' ? 'Yes' : 'No'; };
   const parking = anyComing ? yesNo(data.parking) : 'No';
@@ -326,7 +353,8 @@ function writeResponse_(party, email, data) {
 
   const rows = party.guests.map(function (guest) {
     return [
-      now, party.name, email, guest, yesNo(ceremony[guest]), yesNo(reception[guest]),
+      now, party.name, email, guest, yesNo(attending[guest]),
+      isAttending(guest) ? yesNo(ceremony[guest]) : 'No', isAttending(guest) ? yesNo(reception[guest]) : 'No',
       isComing(guest) ? cleanText_(dietary[guest]) : '', parking, taxi, message,
     ];
   });
